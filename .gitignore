@@ -27,7 +27,3 @@ replay_pid*
 # Dev
 .idea/
 *.DS_Store
-
-# Other
-*.png
-*.jpg
