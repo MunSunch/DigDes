@@ -1,6 +1,6 @@
-package employee.service;
+package service.employee;
 
-import employee.model.Employee;
+import model.employee.Employee;
 
 public interface EmployeeService {
     void saveEmployee(Employee newEmployee);

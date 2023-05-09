@@ -1,4 +1,4 @@
-package employee.model;
+package model.employee;
 
 public enum Post {
     UNKNOWN

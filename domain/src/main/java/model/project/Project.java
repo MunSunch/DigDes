@@ -1,4 +1,4 @@
-package project.model;
+package model.project;
 
 public class Project {
     private String code;

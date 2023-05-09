@@ -1,10 +1,10 @@
-package project.service;
+package dao.project;
 
-import project.model.Project;
-import project.model.StatusProject;
+import model.project.Project;
+import model.project.StatusProject;
 
-public interface ProjectService {
-    void saveProject(Project project);
+public interface ProjectDAO {
+    void createProject(Project newProject);
     void setProject(Project oldProject, Project newProject);
     Project findProject(String value, StatusProject... status);
     void setStatusProject(Project project);

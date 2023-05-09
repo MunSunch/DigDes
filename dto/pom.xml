@@ -10,6 +10,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dto</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>org.munsun.inc</groupId>
+            <artifactId>domain</artifactId>
+            <version>0.0.0</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 
     <properties>
         <maven.compiler.source>18</maven.compiler.source>

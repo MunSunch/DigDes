@@ -1,6 +1,6 @@
-package employee.dao;
+package dao.employee;
 
-import employee.model.Employee;
+import model.employee.Employee;
 
 public interface EmployeeDAO {
     void createEmployee(Employee newEmployee);
