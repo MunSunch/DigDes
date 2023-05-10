@@ -13,6 +13,14 @@
     <artifactId>controllers</artifactId>
     <version>0.0.0</version>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.munsun.system_projects.app</groupId>
+            <artifactId>Application</artifactId>
+            <version>0.0.0</version>
+        </dependency>
+    </dependencies>
+
     <properties>
         <maven.compiler.source>18</maven.compiler.source>
         <maven.compiler.target>18</maven.compiler.target>
