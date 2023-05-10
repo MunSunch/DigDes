@@ -4,16 +4,26 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>DigDesProjects</artifactId>
-        <groupId>org.munsun.inc</groupId>
+        <groupId>com.munsun.system_projects</groupId>
         <version>0.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dto</artifactId>
+    <groupId>com.munsun.system_projects.dto</groupId>
+    <version>0.0.0</version>
+
     <dependencies>
         <dependency>
-            <groupId>org.munsun.inc</groupId>
+            <groupId>com.munsun.system_projects.domain</groupId>
             <artifactId>domain</artifactId>
+            <version>0.0.0</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.munsun.system_projects.controllers</groupId>
+            <artifactId>controllers</artifactId>
             <version>0.0.0</version>
             <scope>compile</scope>
         </dependency>
