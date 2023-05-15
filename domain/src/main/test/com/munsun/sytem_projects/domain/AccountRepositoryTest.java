@@ -19,7 +19,7 @@ public class AccountRepositoryTest {
 
     @BeforeAll
     public static void setAccountRepository() {
-        accountRepository = new AccountRepository("../txt/accounts_test.txt",
+        accountRepository = new AccountRepository("src/main/resources/txt/accounts_test.txt",
                 new AccountMapper(new CSVParser()));
     }
 

@@ -21,10 +21,10 @@ public class EmployeeRepositoryTest {
 
     @BeforeAll
     public static void setAccountRepository() {
-        String pathEmployees = "../txt/employees_test.txt";
-        String pathAccount = "../txt/accounts_test.txt";
-        String pathStatus = "../txt/status_employee_test.txt";
-        String pathPost = "../txt/post_employee_test.txt";
+        String pathEmployees = "src/main/resources/txt/employees_test.txt";
+        String pathAccount = "src/main/resources/txt/accounts_test.txt";
+        String pathStatus = "src/main/resources/txt/status_employee_test.txt";
+        String pathPost = "src/main/resources/txt/post_employee_test.txt";
         employeeRepository = new EmployeeRepository(pathEmployees,
                         new EmployeeMapper(new CSVParser()),
                 new PostEmployeeRepository(pathPost,
