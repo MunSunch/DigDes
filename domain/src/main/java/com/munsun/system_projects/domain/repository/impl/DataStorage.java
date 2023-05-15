@@ -15,7 +15,7 @@ import java.io.FileWriter;
 import java.util.HashSet;
 import java.util.Set;
 
-public class EmployeeRepository implements Repository<Employee>, ReadWriteFile {
+public class DataStorage implements Repository<Employee>, ReadWriteFile {
     private String path;
     private Mapper<Employee> mapper;
     private Set<Employee> objects;
@@ -23,11 +23,11 @@ public class EmployeeRepository implements Repository<Employee>, ReadWriteFile {
     private AccountRepository accountRepository;
     private StatusEmployeeRepository statusEmployeeRepository;
 
-    public EmployeeRepository(String path,
-                              Mapper<Employee> mapper,
-                              PostEmployeeRepository postEmployeeRepository,
-                              AccountRepository accountRepository,
-                              StatusEmployeeRepository statusEmployeeRepository)
+    public DataStorage(String path,
+                       Mapper<Employee> mapper,
+                       PostEmployeeRepository postEmployeeRepository,
+                       AccountRepository accountRepository,
+                       StatusEmployeeRepository statusEmployeeRepository)
     {
         this.objects = new HashSet<>();
         this.path = path;

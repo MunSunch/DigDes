@@ -16,8 +16,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class EmployeeRepositoryTest {
-    private static EmployeeRepository employeeRepository;
+public class DataStorageTest {
+    private static DataStorage dataStorage;
 
     @BeforeAll
     public static void setAccountRepository() {
@@ -25,7 +25,7 @@ public class EmployeeRepositoryTest {
         String pathAccount = "src/main/resources/txt/accounts_test.txt";
         String pathStatus = "src/main/resources/txt/status_employee_test.txt";
         String pathPost = "src/main/resources/txt/post_employee_test.txt";
-        employeeRepository = new EmployeeRepository(pathEmployees,
+        dataStorage = new DataStorage(pathEmployees,
                         new EmployeeMapper(new CSVParser()),
                 new PostEmployeeRepository(pathPost,
                                 new PostEmployeeMapper(new CSVParser())),
@@ -49,10 +49,10 @@ public class EmployeeRepositoryTest {
                 null,
                 new StatusEmployee(1, "ACTIVE")));
 
-        employeeRepository.clear();
-        employeeRepository.create(employees.get(0));
-        employeeRepository.create(employees.get(1));
-        employeeRepository.close();
+        dataStorage.clear();
+        dataStorage.create(employees.get(0));
+        dataStorage.create(employees.get(1));
+        dataStorage.close();
     }
 
     @Test
@@ -69,8 +69,8 @@ public class EmployeeRepositoryTest {
                 null,
                 new StatusEmployee(1, "ACTIVE")));
 
-        employeeRepository.readFile();
-        var actual = employeeRepository.getAll();
+        dataStorage.readFile();
+        var actual = dataStorage.getAll();
 
         Assertions.assertEquals(expected, actual);
     }
@@ -95,11 +95,11 @@ public class EmployeeRepositoryTest {
                 new StatusEmployee(2, "REMOVED"));
         expected.add(e);
 
-        employeeRepository.readFile();
-        employeeRepository.create(e);
-        employeeRepository.close();
-        employeeRepository.readFile();
-        var actual = employeeRepository.getAll();
+        dataStorage.readFile();
+        dataStorage.create(e);
+        dataStorage.close();
+        dataStorage.readFile();
+        var actual = dataStorage.getAll();
 
         Assertions.assertEquals(expected, actual);
     }
@@ -118,15 +118,15 @@ public class EmployeeRepositoryTest {
                 null,
                 new StatusEmployee(1, "ACTIVE")));
 
-        employeeRepository.readFile();
-        employeeRepository.update(2, new Employee(2, "-", "--", null,
+        dataStorage.readFile();
+        dataStorage.update(2, new Employee(2, "-", "--", null,
                 new PostEmployee(2, "DEVELOPER"),
                 new Account(3, "unknown", "588425"),
                 null,
                 new StatusEmployee(1, "ACTIVE")));
-        employeeRepository.close();
-        employeeRepository.readFile();
-        var actual = employeeRepository.getAll();
+        dataStorage.close();
+        dataStorage.readFile();
+        var actual = dataStorage.getAll();
 
         Assertions.assertEquals(expected, actual);
     }
@@ -140,11 +140,11 @@ public class EmployeeRepositoryTest {
                 null,
                 new StatusEmployee(1, "ACTIVE")));
 
-        employeeRepository.readFile();
-        employeeRepository.deleteById(1);
-        employeeRepository.close();
-        employeeRepository.readFile();
-        var actual = employeeRepository.getAll();
+        dataStorage.readFile();
+        dataStorage.deleteById(1);
+        dataStorage.close();
+        dataStorage.readFile();
+        var actual = dataStorage.getAll();
 
         Assertions.assertEquals(expected, actual);
     }
