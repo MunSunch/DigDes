@@ -7,6 +7,9 @@ import lombok.Data;
 public class Project {
     private int id;
     private String code;
+    private String name;
+    private String description;
     //OneToMany
     private StatusProject status;
+
 }
