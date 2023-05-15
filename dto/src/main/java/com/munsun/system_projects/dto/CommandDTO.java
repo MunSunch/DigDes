@@ -1,8 +1,11 @@
 package com.munsun.system_projects.dto;
 
-import lombok.Data;
+import com.munsun.system_projects.dto.enums.RoleCommandDTO;
 
-@Data
 public class CommandDTO {
-    private String name;
+    private int id;
+    private int command;
+    private ProjectDTO project;
+    private EmployeeDTO employee;
+    private RoleCommandDTO role;
 }

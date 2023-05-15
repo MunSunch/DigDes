@@ -1,17 +1,19 @@
 package com.munsun.system_projects.dto;
 
+import com.munsun.system_projects.dto.enums.PostEmployeeDTO;
+import com.munsun.system_projects.dto.enums.StatusEmployeeDTO;
 import lombok.Data;
 
 @Data
 public class EmployeeDTO {
+    private int id;
     private String name;
     private String lastname;
     private String pytronymic;
     //OneToMany
-    private String postEmployee;
+    private PostEmployeeDTO postEmployee;
     //OneToOne
-    private String account;
-    private String email;
+    private AccountDTO account;
     //OneToMany
-    private String statusEmployee;
+    private StatusEmployeeDTO statusEmployee;
 }
