@@ -1,6 +1,6 @@
 package com.munsun.system_projects.dto;
 
-import com.munsun.system_projects.dto.enums.StatusProjectDTO;
+import com.munsun.system_projects.domain.model.enums.StatusProject;
 import lombok.Data;
 
 @Data
@@ -10,5 +10,5 @@ public class ProjectDTO {
     private String name;
     private String description;
     //OneToMany
-    private StatusProjectDTO status;
+    private StatusProject status;
 }

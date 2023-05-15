@@ -1,6 +1,6 @@
 package com.munsun.system_projects.dto;
 
-import com.munsun.system_projects.dto.enums.StatusTaskDTO;
+import com.munsun.system_projects.domain.model.enums.StatusTask;
 import lombok.Data;
 
 import java.util.Date;
@@ -16,5 +16,5 @@ public class TaskDTO {
     private Date lastChangeDate;
     private Date endDate;
     private Date createDate;
-    private StatusTaskDTO statusTask;
+    private StatusTask statusTask;
 }
