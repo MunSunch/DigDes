@@ -5,14 +5,20 @@ import com.munsun.system_projects.domain.model.Account;
 import com.munsun.system_projects.domain.model.Employee;
 import com.munsun.system_projects.domain.model.PostEmployee;
 import com.munsun.system_projects.domain.model.StatusEmployee;
-import com.munsun.system_projects.domain.repository.AbstractRepository;
+import com.munsun.system_projects.domain.repository.ReadWriteFile;
+import com.munsun.system_projects.domain.repository.Repository;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.HashSet;
+import java.util.Set;
 
-public class EmployeeRepository extends AbstractRepository<Employee> {
+public class EmployeeRepository implements Repository<Employee>, ReadWriteFile {
+    private String path;
+    private Mapper<Employee> mapper;
+    private Set<Employee> objects;
     private PostEmployeeRepository postEmployeeRepository;
     private AccountRepository accountRepository;
     private StatusEmployeeRepository statusEmployeeRepository;
@@ -23,7 +29,9 @@ public class EmployeeRepository extends AbstractRepository<Employee> {
                               AccountRepository accountRepository,
                               StatusEmployeeRepository statusEmployeeRepository)
     {
-        super(path, mapper);
+        this.objects = new HashSet<>();
+        this.path = path;
+        this.mapper = mapper;
         this.postEmployeeRepository = postEmployeeRepository;
         this.accountRepository = accountRepository;
         this.statusEmployeeRepository = statusEmployeeRepository;
@@ -86,7 +94,9 @@ public class EmployeeRepository extends AbstractRepository<Employee> {
 
     @Override
     public Employee deleteById(int id) {
-        return super.deleteById(id);
+        var deleteEmployee = getById(id);
+        objects.remove(deleteEmployee);
+        return deleteEmployee;
     }
 
     @Override
@@ -103,6 +113,22 @@ public class EmployeeRepository extends AbstractRepository<Employee> {
                     .filter(x -> x.getId()==id)
                     .toList()
                 .get(0);
+    }
+
+    @Override
+    public Set<Employee> getAll() {
+        return new HashSet<Employee>(objects);
+    }
+
+    @Override
+    public void close() {
+        writeFile();
+        clear();
+    }
+
+    @Override
+    public void clear() {
+        objects.clear();
     }
 
     public PostEmployeeRepository getPostEmployeeRepository() {
