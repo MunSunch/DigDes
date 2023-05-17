@@ -1,4 +1,4 @@
-package com.munsun.system_projects.domain.mapping.read_write_files;
+package com.munsun.system_projects.domain.mapping;
 
 public abstract class Mapper<T> {
     protected Parser parser;

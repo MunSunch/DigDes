@@ -1,7 +1,7 @@
-package com.munsun.system_projects.domain.mapping.read_write_files.impl;
+package com.munsun.system_projects.domain.mapping.impl;
 
-import com.munsun.system_projects.domain.mapping.read_write_files.Mapper;
-import com.munsun.system_projects.domain.mapping.read_write_files.Parser;
+import com.munsun.system_projects.domain.mapping.Mapper;
+import com.munsun.system_projects.domain.mapping.Parser;
 import com.munsun.system_projects.domain.model.StatusEmployee;
 
 public class StatusEmployeeMapper extends Mapper<StatusEmployee> {
