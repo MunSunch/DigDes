@@ -1,8 +1,9 @@
 package com.munsun.system_projects.domain.model;
 
-public class Command {
+public class ProjectsTasks {
     private int id;
-    private String code;
-    //OneToOne
+    //OneToMany
     private Project project;
+    //OneToMany
+    private Task task;
 }

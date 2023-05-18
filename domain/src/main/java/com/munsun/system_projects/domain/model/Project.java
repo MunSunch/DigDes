@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 public class Project {
     private int id;
+    //UQ
     private String code;
     private String name;
     private String description;
