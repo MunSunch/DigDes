@@ -1,11 +1,10 @@
 package com.munsun.system_projects.dto;
 
-import com.munsun.system_projects.domain.model.enums.RoleCommand;
+import com.munsun.system_projects.domain.model.Project;
 
 public class CommandDTO {
     private int id;
-    private int command;
-    private ProjectDTO project;
-    private EmployeeDTO employee;
-    private RoleCommand role;
+    private String code;
+    //OneToOne
+    private Project project;
 }
