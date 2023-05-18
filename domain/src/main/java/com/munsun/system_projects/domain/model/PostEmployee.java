@@ -12,5 +12,9 @@ public class PostEmployee {
         this.name = name;
     }
 
+    public PostEmployee(String name) {
+        this.name = name;
+    }
+
     public PostEmployee() {}
 }
