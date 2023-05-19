@@ -59,7 +59,9 @@ public class AccountDAO implements DAO<Account> {
 
     @Override
     public int save(Account obj) {
-        //checkSqlInjection(obj);
+        if(checkSqlInjection(obj.getLogin(), obj.getPassword())) {
+            return 0;
+        }
         String createAccountQuery = String.format("INSERT INTO accounts(login, password) VALUES ('%s', '%s')",
                 obj.getLogin(), obj.getPassword());
         int counter = 0;
@@ -73,13 +75,23 @@ public class AccountDAO implements DAO<Account> {
         return counter;
     }
 
-    private void checkSqlInjection(Account obj) {
-        String login = obj.getLogin();
-        String password = obj.getPassword();
+    private boolean checkSqlInjection(String ...strings) {
+        String[] illegalsStrings = {"--", "'", " ", ",", ";"};
+        for(var string: strings) {
+            for(var illegalString: illegalsStrings) {
+                if(string.indexOf(illegalString) != -1) {
+                    return true;
+                }
+            }
+        }
+        return true;
     }
 
     @Override
     public int update(int id, Account newAccount) {
+        if(checkSqlInjection(newAccount.getLogin(), newAccount.getPassword())) {
+            return 0;
+        }
         String updateQuery = String.format("UPDATE accounts SET login='%s', password='%s'" +
                                            "WHERE id=%d", newAccount.getLogin(),newAccount.getPassword(), id);
         int counter = 0;

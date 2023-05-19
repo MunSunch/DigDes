@@ -1,7 +1,7 @@
 package com.munsun.system_projects.dto;
 
-import com.munsun.system_projects.domain.model.PostEmployee;
-import com.munsun.system_projects.domain.model.StatusEmployee;
+import com.munsun.system_projects.commons.enums.PostEmployee;
+import com.munsun.system_projects.commons.enums.StatusEmployee;
 import lombok.Data;
 
 @Data
