@@ -7,6 +7,7 @@ import com.munsun.system_projects.domain.model.PostEmployee;
 import com.munsun.system_projects.domain.model.StatusEmployee;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class EmployeeDaoTest {
@@ -29,6 +30,12 @@ public class EmployeeDaoTest {
         var actual = employeeDAO.getById(5);
 
         Assertions.assertEquals(expected, actual);
+    }
+
+    @Disabled
+    @Test
+    public void testGetAll() {
+        var actual = employeeDAO.getAll();
     }
 
     @Test

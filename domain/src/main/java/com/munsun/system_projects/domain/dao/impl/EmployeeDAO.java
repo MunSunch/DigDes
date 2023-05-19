@@ -5,7 +5,6 @@ import com.munsun.system_projects.domain.model.Account;
 import com.munsun.system_projects.domain.model.Employee;
 import com.munsun.system_projects.domain.model.PostEmployee;
 import com.munsun.system_projects.domain.model.StatusEmployee;
-import com.munsun.system_projects.dto.EmployeeDTO;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -16,22 +15,29 @@ public class EmployeeDAO implements DAO<Employee> {
     private String user;
     private String password;
 
-    private DAO<Account> accountDAO;
-    private DAO<PostEmployee> postEmployeeDAO;
-    private DAO<StatusEmployee> statusEmployeeDAO;
-
     public EmployeeDAO(String url, String user, String password) {
         this.url = url;
         this.user = user;
         this.password = password;
-        accountDAO = new AccountDAO(url,user,password);
-        postEmployeeDAO = new PostEmployeeDAO(url,user,password);
-        statusEmployeeDAO = new StatusEmployeeDAO(url,user,password);
     }
 
     @Override
     public List<Employee> getAll() {
-        String selectAllQuery = "SELECT * FROM employees";
+        String selectAllQuery = "SELECT e.id as id," +
+                                        "e.name as name," +
+                                        "e.lastname as lastname," +
+                                        "e.patronymic as patronymic," +
+                                        "e.post_id as post_id," +
+                                        "p.name as post_name," +
+                                        "e.account_id as account_id," +
+                                        "a.login as account_login," +
+                                        "a.password as account_password," +
+                                        "e.email as email," +
+                                        "e.status_employees_id as status_employee_id," +
+                                        "s.name as status_employee_name " +
+                                "FROM employees as e join accounts as a on a.id = e.account_id " +
+                                                    "join post_employees as p on e.post_id = p.id " +
+                                                    "join status_employees as s on e.status_employees_id = s.id";
         List<Employee> employees = new ArrayList<>();
         try(Connection connection = getConnection();
             Statement statement = connection.createStatement())
@@ -43,10 +49,14 @@ public class EmployeeDAO implements DAO<Employee> {
                 employee.setName(set.getString("name"));
                 employee.setLastname(set.getString("lastname"));
                 employee.setPytronymic(set.getString("patronymic"));
-                employee.setPostEmployee(postEmployeeDAO.getById(set.getInt("post_id")));
-                employee.setAccount(accountDAO.getById(set.getInt("account_id")));
+                employee.setPostEmployee(new PostEmployee(set.getInt("post_id"),
+                                                          set.getString("post_name")));
+                employee.setAccount(new Account(set.getInt("account_id"),
+                                                set.getString("account_login"),
+                                                set.getString("account_password")));
                 employee.setEmail(set.getString("email"));
-                employee.setStatusEmployee(statusEmployeeDAO.getById(set.getInt("status_employees_id")));
+                employee.setStatusEmployee(new StatusEmployee(set.getInt("status_employee_id"),
+                                                              set.getString("status_employee_name")));
                 employees.add(employee);
             }
         } catch (SQLException e) {
@@ -57,10 +67,46 @@ public class EmployeeDAO implements DAO<Employee> {
 
     @Override
     public Employee getById(int id) {
-        return getAll().stream()
-                .filter(x -> x.getId()==id)
-                .toList()
-                .get(0);
+        String selectById = "SELECT e.id as id," +
+                                    "e.name as name," +
+                                    "e.lastname as lastname," +
+                                    "e.patronymic as patronymic," +
+                                    "e.post_id as post_id," +
+                                    "p.name as post_name," +
+                                    "e.account_id as account_id," +
+                                    "a.login as account_login," +
+                                    "a.password as account_password," +
+                                    "e.email as email," +
+                                    "e.status_employees_id as status_employee_id," +
+                                    "s.name as status_employee_name " +
+                            "FROM employees as e join accounts as a on a.id = e.account_id " +
+                                            "join post_employees as p on e.post_id = p.id " +
+                                            "join status_employees as s on e.status_employees_id = s.id " +
+                            "WHERE e.id=" + id;
+        Employee employee = null;
+        try(Connection connection = getConnection();
+            Statement statement = connection.createStatement())
+        {
+            ResultSet set = statement.executeQuery(selectById);
+            while(set.next()) {
+                employee = new Employee();
+                employee.setId(set.getInt("id"));
+                employee.setName(set.getString("name"));
+                employee.setLastname(set.getString("lastname"));
+                employee.setPytronymic(set.getString("patronymic"));
+                employee.setPostEmployee(new PostEmployee(set.getInt("post_id"),
+                        set.getString("post_name")));
+                employee.setAccount(new Account(set.getInt("account_id"),
+                        set.getString("account_login"),
+                        set.getString("account_password")));
+                employee.setEmail(set.getString("email"));
+                employee.setStatusEmployee(new StatusEmployee(set.getInt("status_employee_id"),
+                        set.getString("status_employee_name")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return employee;
     }
 
     @Override

@@ -40,10 +40,21 @@ public class AccountDAO implements DAO<Account> {
 
     @Override
     public Account getById(int id) {
-        return getAll().stream()
-                .filter(x -> x.getId()==id)
-                .toList()
-                .get(0);
+        String selectById = "SELECT * FROM accounts WHERE id=" + id;
+        Account account = null;
+        try(Connection connection = getConnection();
+            Statement statement = connection.createStatement())
+        {
+            ResultSet set = statement.executeQuery(selectById);
+            while(set.next()) {
+                account = new Account(set.getInt("id"),
+                        set.getString("login"),
+                        set.getString("password"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return account;
     }
 
     @Override

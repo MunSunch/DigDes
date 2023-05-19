@@ -35,13 +35,6 @@
             <artifactId>postgresql</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.munsun.system_projects.dto</groupId>
-            <artifactId>dto</artifactId>
-            <version>0.0.0</version>
-            <scope>compile</scope>
-        </dependency>
-
         <!-- https://mvnrepository.com/artifact/org.liquibase/liquibase-core -->
         <dependency>
             <groupId>org.liquibase</groupId>
