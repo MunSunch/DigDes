@@ -1,12 +1,8 @@
 package com.munsun.system_projects.domain.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class Employee {
     private int id;
     private String name;
@@ -19,6 +15,38 @@ public class Employee {
     private String email;
     //OneToMany
     private StatusEmployee statusEmployee;
+
+    public Employee(int id, String name, String lastname, String pytronymic, PostEmployee postEmployee, Account account, String email, StatusEmployee statusEmployee) {
+        this.id = id;
+        this.name = name;
+        this.lastname = lastname;
+        this.pytronymic = pytronymic;
+        this.postEmployee = postEmployee;
+        this.account = account;
+        this.email = email;
+        this.statusEmployee = statusEmployee;
+    }
+
+    public Employee(String name, String lastname, String pytronymic, PostEmployee postEmployee, Account account, String email, StatusEmployee statusEmployee) {
+        this.name = name;
+        this.lastname = lastname;
+        this.pytronymic = pytronymic;
+        this.postEmployee = postEmployee;
+        this.account = account;
+        this.email = email;
+        this.statusEmployee = statusEmployee;
+    }
+
+    public Employee() {
+    }
+
+    public boolean equalsEmployee(Employee e) {
+        return name.equals(e.getName())
+                && lastname.equals(e.getLastname())
+                && postEmployee.equals(e.getPostEmployee())
+                && account.equals(e.getAccount())
+                && statusEmployee.equals(e.getStatusEmployee());
+    }
 
     @Override
     public boolean equals(Object o) {

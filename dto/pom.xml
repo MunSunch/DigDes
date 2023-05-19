@@ -26,10 +26,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.munsun.system_projects.domain</groupId>
-            <artifactId>domain</artifactId>
-            <version>0.0.0</version>
-            <scope>compile</scope>
+            <artifactId>commons</artifactId>
+            <groupId>com.munsun.system_projects.commons</groupId>
+            <version>${version}</version>
         </dependency>
     </dependencies>
 

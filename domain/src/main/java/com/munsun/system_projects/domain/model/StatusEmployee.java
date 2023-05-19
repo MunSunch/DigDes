@@ -5,9 +5,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class StatusEmployee {
     private int id;
     private String name;
+
+    public StatusEmployee(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public StatusEmployee() {
+    }
 }

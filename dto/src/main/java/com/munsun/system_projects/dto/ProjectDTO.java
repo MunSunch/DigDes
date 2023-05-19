@@ -1,6 +1,6 @@
 package com.munsun.system_projects.dto;
 
-import com.munsun.system_projects.domain.model.enums.StatusProject;
+import com.munsun.system_projects.commons.enums.StatusProject;
 import lombok.Data;
 
 @Data
