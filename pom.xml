@@ -14,11 +14,16 @@
         <module>dto</module>
         <module>controllers</module>
         <module>Application</module>
+        <module>commons</module>
     </modules>
 
     <properties>
         <maven.compiler.source>18</maven.compiler.source>
         <maven.compiler.target>18</maven.compiler.target>
+        <org.projectlombok.lombok.version>1.18.26</org.projectlombok.lombok.version>
+        <org.junit.jupiter.junit-jupiter-api.version>5.9.2</org.junit.jupiter.junit-jupiter-api.version>
+        <org.postgresql.postgresql.version>42.6.0</org.postgresql.postgresql.version>
+        <org.liquibase.liquibase-core.version>4.22.0</org.liquibase.liquibase-core.version>
     </properties>
 
     <dependencyManagement>
@@ -27,7 +32,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.26</version>
+            <version>${org.projectlombok.lombok.version}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -35,21 +40,21 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>5.9.2</version>
+            <version>${org.junit.jupiter.junit-jupiter-api.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.6.0</version>
+            <version>${org.postgresql.postgresql.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.liquibase/liquibase-core -->
         <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
-            <version>4.22.0</version>
+            <version>${org.liquibase.liquibase-core.version}</version>
         </dependency>
 
         </dependencies>

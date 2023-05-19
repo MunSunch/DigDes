@@ -59,6 +59,7 @@ public class AccountDAO implements DAO<Account> {
 
     @Override
     public int save(Account obj) {
+        //checkSqlInjection(obj);
         String createAccountQuery = String.format("INSERT INTO accounts(login, password) VALUES ('%s', '%s')",
                 obj.getLogin(), obj.getPassword());
         int counter = 0;
@@ -70,6 +71,11 @@ public class AccountDAO implements DAO<Account> {
             e.printStackTrace();
         }
         return counter;
+    }
+
+    private void checkSqlInjection(Account obj) {
+        String login = obj.getLogin();
+        String password = obj.getPassword();
     }
 
     @Override

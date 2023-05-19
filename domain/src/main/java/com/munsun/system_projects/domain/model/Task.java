@@ -1,6 +1,6 @@
 package com.munsun.system_projects.domain.model;
 
-import com.munsun.system_projects.domain.model.enums.StatusTask;
+import com.munsun.system_projects.commons.enums.StatusTask;
 import lombok.Data;
 
 import java.util.Date;
