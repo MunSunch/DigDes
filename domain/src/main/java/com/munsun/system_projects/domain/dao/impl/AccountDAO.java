@@ -59,46 +59,31 @@ public class AccountDAO implements DAO<Account> {
 
     @Override
     public int save(Account obj) {
-        if(checkSqlInjection(obj.getLogin(), obj.getPassword())) {
-            return 0;
-        }
-        String createAccountQuery = String.format("INSERT INTO accounts(login, password) VALUES ('%s', '%s')",
-                obj.getLogin(), obj.getPassword());
+        String createAccountQuery = "INSERT INTO accounts(login, password) VALUES (?, ?)";
         int counter = 0;
         try(Connection connection = getConnection();
-            Statement statement = connection.createStatement())
+            PreparedStatement preparedStatement = connection.prepareStatement(createAccountQuery))
         {
-            counter = statement.executeUpdate(createAccountQuery);
+            preparedStatement.setString(1, obj.getLogin());
+            preparedStatement.setString(2, obj.getPassword());
+            counter = preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return counter;
     }
 
-    private boolean checkSqlInjection(String ...strings) {
-        String[] illegalsStrings = {"--", "'", " ", ",", ";"};
-        for(var string: strings) {
-            for(var illegalString: illegalsStrings) {
-                if(string.indexOf(illegalString) != -1) {
-                    return true;
-                }
-            }
-        }
-        return true;
-    }
-
     @Override
     public int update(int id, Account newAccount) {
-        if(checkSqlInjection(newAccount.getLogin(), newAccount.getPassword())) {
-            return 0;
-        }
-        String updateQuery = String.format("UPDATE accounts SET login='%s', password='%s'" +
-                                           "WHERE id=%d", newAccount.getLogin(),newAccount.getPassword(), id);
+        String updateQuery = "UPDATE accounts SET login=?, password=? WHERE id=?";
         int counter = 0;
         try(Connection connection = getConnection();
-            Statement statement = connection.createStatement())
+            PreparedStatement preparedStatement = connection.prepareStatement(updateQuery))
         {
-            counter = statement.executeUpdate(updateQuery);
+            preparedStatement.setString(1, newAccount.getLogin());
+            preparedStatement.setString(2, newAccount.getPassword());
+            preparedStatement.setInt(3, id);
+            counter = preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }

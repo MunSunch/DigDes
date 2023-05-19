@@ -20,7 +20,7 @@ public class AccountDaoTest {
 
     @Test
     public void testSqlInjection() {
-        int expected = 0;
+        int expected = 1;
         Account account = new Account("',''); UPDATE accounts SET login='admin', password='admin'; -- ", "221432532dsad");
 
         var actual = accountDAO.save(account);
