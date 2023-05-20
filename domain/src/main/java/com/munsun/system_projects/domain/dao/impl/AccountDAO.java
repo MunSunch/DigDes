@@ -40,21 +40,33 @@ public class AccountDAO implements DAO<Account> {
 
     @Override
     public Account getById(int id) {
-        return getAll().stream()
-                .filter(x -> x.getId()==id)
-                .toList()
-                .get(0);
+        String selectById = "SELECT * FROM accounts WHERE id=" + id;
+        Account account = null;
+        try(Connection connection = getConnection();
+            Statement statement = connection.createStatement())
+        {
+            ResultSet set = statement.executeQuery(selectById);
+            while(set.next()) {
+                account = new Account(set.getInt("id"),
+                        set.getString("login"),
+                        set.getString("password"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return account;
     }
 
     @Override
     public int save(Account obj) {
-        String createAccountQuery = String.format("INSERT INTO accounts(login, password) VALUES ('%s', '%s')",
-                obj.getLogin(), obj.getPassword());
+        String createAccountQuery = "INSERT INTO accounts(login, password) VALUES (?, ?)";
         int counter = 0;
         try(Connection connection = getConnection();
-            Statement statement = connection.createStatement())
+            PreparedStatement preparedStatement = connection.prepareStatement(createAccountQuery))
         {
-            counter = statement.executeUpdate(createAccountQuery);
+            preparedStatement.setString(1, obj.getLogin());
+            preparedStatement.setString(2, obj.getPassword());
+            counter = preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -63,13 +75,15 @@ public class AccountDAO implements DAO<Account> {
 
     @Override
     public int update(int id, Account newAccount) {
-        String updateQuery = String.format("UPDATE accounts SET login='%s', password='%s'" +
-                                           "WHERE id=%d", newAccount.getLogin(),newAccount.getPassword(), id);
+        String updateQuery = "UPDATE accounts SET login=?, password=? WHERE id=?";
         int counter = 0;
         try(Connection connection = getConnection();
-            Statement statement = connection.createStatement())
+            PreparedStatement preparedStatement = connection.prepareStatement(updateQuery))
         {
-            counter = statement.executeUpdate(updateQuery);
+            preparedStatement.setString(1, newAccount.getLogin());
+            preparedStatement.setString(2, newAccount.getPassword());
+            preparedStatement.setInt(3, id);
+            counter = preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -19,6 +19,16 @@ public class AccountDaoTest {
     }
 
     @Test
+    public void testSqlInjection() {
+        int expected = 1;
+        Account account = new Account("',''); UPDATE accounts SET login='admin', password='admin'; -- ", "221432532dsad");
+
+        var actual = accountDAO.save(account);
+
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
     public void testGetAll() {
         List<Account> expected = new ArrayList<>();
         expected.add(new Account(1, "munsun", "12345qwerty"));

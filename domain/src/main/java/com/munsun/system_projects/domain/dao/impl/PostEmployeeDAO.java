@@ -1,6 +1,7 @@
 package com.munsun.system_projects.domain.dao.impl;
 
 import com.munsun.system_projects.domain.dao.DAO;
+import com.munsun.system_projects.domain.model.Account;
 import com.munsun.system_projects.domain.model.PostEmployee;
 
 import java.sql.*;
@@ -40,10 +41,18 @@ public class PostEmployeeDAO implements DAO<PostEmployee> {
 
     @Override
     public PostEmployee getById(int id) {
-        return getAll().stream()
-                .filter(x -> x.getId()==id)
-                .toList()
-                .get(0);
+        String selectById = "SELECT * FROM post_employees WHERE id=" + id;
+        PostEmployee postEmployee = null;
+        try(Connection connection = getConnection();
+            Statement statement = connection.createStatement())
+        {
+            ResultSet set = statement.executeQuery(selectById);
+            postEmployee = new PostEmployee(set.getInt("id"),
+                                            set.getString("name"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return postEmployee;
     }
 
     @Override

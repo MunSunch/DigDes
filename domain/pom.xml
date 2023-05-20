@@ -28,6 +28,7 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -35,17 +36,22 @@
             <artifactId>postgresql</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.munsun.system_projects.dto</groupId>
-            <artifactId>dto</artifactId>
-            <version>0.0.0</version>
-            <scope>compile</scope>
-        </dependency>
-
         <!-- https://mvnrepository.com/artifact/org.liquibase/liquibase-core -->
         <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <artifactId>dto</artifactId>
+            <groupId>com.munsun.system_projects.dto</groupId>
+            <version>${version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>commons</artifactId>
+            <groupId>com.munsun.system_projects.commons</groupId>
+            <version>${version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
