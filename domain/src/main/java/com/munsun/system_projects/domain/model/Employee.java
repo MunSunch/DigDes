@@ -1,65 +1,39 @@
 package com.munsun.system_projects.domain.model;
 
+import com.munsun.system_projects.commons.enums.PostEmployee;
+import com.munsun.system_projects.commons.enums.StatusEmployee;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
+@Entity
+@Table(name="employees")
 public class Employee {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(name="name")
     private String name;
+
+    @Column(name="lastname")
     private String lastname;
+
+    @Column(name="patronymic")
     private String pytronymic;
-    //OneToMany
+
+    @Enumerated(EnumType.STRING)
+    @Column(name="post_id")
     private PostEmployee postEmployee;
-    //OneToOne
+
+    @OneToOne
+    @JoinColumn(name = "account_id")
     private Account account;
+
+    @Column(name="email")
     private String email;
-    //OneToMany
+
+    @Enumerated(EnumType.STRING)
+    @Column(name="status_employees_id")
     private StatusEmployee statusEmployee;
-
-    public Employee(int id, String name, String lastname, String pytronymic, PostEmployee postEmployee, Account account, String email, StatusEmployee statusEmployee) {
-        this.id = id;
-        this.name = name;
-        this.lastname = lastname;
-        this.pytronymic = pytronymic;
-        this.postEmployee = postEmployee;
-        this.account = account;
-        this.email = email;
-        this.statusEmployee = statusEmployee;
-    }
-
-    public Employee(String name, String lastname, String pytronymic, PostEmployee postEmployee, Account account, String email, StatusEmployee statusEmployee) {
-        this.name = name;
-        this.lastname = lastname;
-        this.pytronymic = pytronymic;
-        this.postEmployee = postEmployee;
-        this.account = account;
-        this.email = email;
-        this.statusEmployee = statusEmployee;
-    }
-
-    public Employee() {
-    }
-
-    public boolean equalsEmployee(Employee e) {
-        return name.equals(e.getName())
-                && lastname.equals(e.getLastname())
-                && postEmployee.equals(e.getPostEmployee())
-                && account.equals(e.getAccount())
-                && statusEmployee.equals(e.getStatusEmployee());
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Employee e = (Employee) o;
-
-        return id==e.getId()
-                && name.equals(e.getName())
-                && lastname.equals(e.getLastname())
-                && postEmployee.equals(e.getPostEmployee())
-                && account.equals(e.getAccount())
-                && statusEmployee.equals(e.getStatusEmployee());
-    }
 }
