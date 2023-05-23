@@ -1,6 +1,5 @@
 package com.munsun.system_projects.domain.model;
 
-import com.munsun.system_projects.commons.enums.RoleCommand;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -12,15 +11,15 @@ public class CommandsEmployees {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "command_id")
     private Command command;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name="role_id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "role_id")
     private RoleCommand roleCommand;
 }

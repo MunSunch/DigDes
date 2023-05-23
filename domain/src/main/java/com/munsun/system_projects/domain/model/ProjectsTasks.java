@@ -12,11 +12,11 @@ public class ProjectsTasks {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToMany
+    @ManyToOne
     @Column(name="project_id")
     private Project project;
 
-    @OneToMany
+    @ManyToOne
     @Column(name="task_id")
     private Task task;
 }

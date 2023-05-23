@@ -1,6 +1,5 @@
 package com.munsun.system_projects.domain.model;
 
-
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -15,7 +14,7 @@ public class Command {
     @Column(name = "code")
     private String code;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "project_id")
     private Project project;
 }

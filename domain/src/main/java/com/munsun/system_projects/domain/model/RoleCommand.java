@@ -5,15 +5,12 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "accounts")
-public class Account {
+@Table(name="roles")
+public class RoleCommand {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "login")
-    private String login;
-
-    @Column(name = "password")
-    private String password;
+    @Column(name="name")
+    private String name;
 }

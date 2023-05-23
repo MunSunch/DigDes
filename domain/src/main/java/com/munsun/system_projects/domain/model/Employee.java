@@ -1,7 +1,5 @@
 package com.munsun.system_projects.domain.model;
 
-import com.munsun.system_projects.commons.enums.PostEmployee;
-import com.munsun.system_projects.commons.enums.StatusEmployee;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -11,29 +9,30 @@ import lombok.Data;
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
     private int id;
 
-    @Column(name="name")
+    @Column(name="name", nullable = false)
     private String name;
 
-    @Column(name="lastname")
+    @Column(name="lastname", nullable = false)
     private String lastname;
 
-    @Column(name="patronymic")
+    @Column(name="patronymic", nullable = true)
     private String pytronymic;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name="post_id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="post_id")
     private PostEmployee postEmployee;
 
-    @OneToOne
-    @JoinColumn(name = "account_id")
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name="account_id")
     private Account account;
 
-    @Column(name="email")
+    @Column(name="email", nullable = true)
     private String email;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name="status_employees_id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "status_employees_id")
     private StatusEmployee statusEmployee;
 }

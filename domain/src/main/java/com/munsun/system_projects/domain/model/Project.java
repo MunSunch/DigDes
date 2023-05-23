@@ -1,6 +1,5 @@
 package com.munsun.system_projects.domain.model;
 
-import com.munsun.system_projects.commons.enums.StatusProject;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -21,7 +20,7 @@ public class Project {
     @Column(name="description")
     private String description;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name="status_project_id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "status_project_id")
     private StatusProject status;
 }
