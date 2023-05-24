@@ -4,6 +4,8 @@ import com.munsun.system_projects.commons.enums.StatusTask;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @Entity
 @Table(name="tasks")
@@ -43,4 +45,10 @@ public class Task {
 
     @Column(name="status_id")
     private StatusTask statusTask;
+
+    @ManyToMany
+    @JoinTable(name="projects_to_tasks",
+            joinColumns = @JoinColumn(name="task_id"),
+            inverseJoinColumns = @JoinColumn(name="project_id"))
+    private List<Project> projects;
 }

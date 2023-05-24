@@ -13,6 +13,5 @@ public class ProjectDTO {
     private String code;
     private String name;
     private String description;
-    //OneToMany
     private StatusProject status;
 }

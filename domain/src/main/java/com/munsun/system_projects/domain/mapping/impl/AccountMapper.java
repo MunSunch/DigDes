@@ -3,7 +3,9 @@ package com.munsun.system_projects.domain.mapping.impl;
 import com.munsun.system_projects.domain.mapping.Mapper;
 import com.munsun.system_projects.domain.model.Account;
 import com.munsun.system_projects.dto.entity.AccountDTO;
+import org.springframework.stereotype.Component;
 
+@Component
 public class AccountMapper implements Mapper<Account, AccountDTO> {
     @Override
     public Account map(AccountDTO obj) {

@@ -2,7 +2,9 @@ package com.munsun.system_projects.domain.mapping.impl;
 
 import com.munsun.system_projects.domain.mapping.Mapper;
 import com.munsun.system_projects.domain.model.PostEmployee;
+import org.springframework.stereotype.Component;
 
+@Component
 public class PostEmployeeMapper implements Mapper<PostEmployee, com.munsun.system_projects.commons.enums.PostEmployee> {
     @Override
     public PostEmployee map(com.munsun.system_projects.commons.enums.PostEmployee obj) {

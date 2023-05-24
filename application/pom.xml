@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.munsun.system_projects.app</groupId>
-    <artifactId>Application</artifactId>
+    <artifactId>application</artifactId>
     <version>0.0.0</version>
 
     <properties>
@@ -38,15 +38,21 @@
         </dependency>
 
         <dependency>
-            <groupId>com.munsun.system_projects.controllers</groupId>
-            <artifactId>controllers</artifactId>
+            <groupId>com.munsun.system_projects.commons</groupId>
+            <artifactId>commons</artifactId>
             <version>0.0.0</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter -->
         <dependency>
-            <artifactId>commons</artifactId>
-            <groupId>com.munsun.system_projects.commons</groupId>
-            <version>0.0.0</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
     </dependencies>
 
