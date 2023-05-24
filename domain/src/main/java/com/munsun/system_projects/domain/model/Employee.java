@@ -1,65 +1,48 @@
 package com.munsun.system_projects.domain.model;
 
+import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
+@Entity
+@Table(name="employees")
 public class Employee {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
     private int id;
+
+    @Column(name="name", nullable = false)
     private String name;
+
+    @Column(name="lastname", nullable = false)
     private String lastname;
-    private String pytronymic;
-    //OneToMany
+
+    @Column(name="patronymic", nullable = true)
+    private String patronymic;
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+            CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinColumn(name="post_id",  referencedColumnName = "id")
     private PostEmployee postEmployee;
-    //OneToOne
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="account_id", referencedColumnName = "id")
     private Account account;
+
+    @Column(name="email", nullable = true)
     private String email;
-    //OneToMany
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+            CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinColumn(name = "status_employees_id",  referencedColumnName = "id")
     private StatusEmployee statusEmployee;
 
-    public Employee(int id, String name, String lastname, String pytronymic, PostEmployee postEmployee, Account account, String email, StatusEmployee statusEmployee) {
-        this.id = id;
-        this.name = name;
-        this.lastname = lastname;
-        this.pytronymic = pytronymic;
-        this.postEmployee = postEmployee;
-        this.account = account;
-        this.email = email;
-        this.statusEmployee = statusEmployee;
-    }
-
-    public Employee(String name, String lastname, String pytronymic, PostEmployee postEmployee, Account account, String email, StatusEmployee statusEmployee) {
-        this.name = name;
-        this.lastname = lastname;
-        this.pytronymic = pytronymic;
-        this.postEmployee = postEmployee;
-        this.account = account;
-        this.email = email;
-        this.statusEmployee = statusEmployee;
-    }
-
-    public Employee() {
-    }
-
-    public boolean equalsEmployee(Employee e) {
-        return name.equals(e.getName())
-                && lastname.equals(e.getLastname())
-                && postEmployee.equals(e.getPostEmployee())
-                && account.equals(e.getAccount())
-                && statusEmployee.equals(e.getStatusEmployee());
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Employee e = (Employee) o;
-
-        return id==e.getId()
-                && name.equals(e.getName())
-                && lastname.equals(e.getLastname())
-                && postEmployee.equals(e.getPostEmployee())
-                && account.equals(e.getAccount())
-                && statusEmployee.equals(e.getStatusEmployee());
-    }
+    @ManyToMany
+    @JoinTable(name="commands_to_employees",
+            joinColumns = @JoinColumn(name="employee_id"),
+            inverseJoinColumns = @JoinColumn(name="command_id"))
+    private List<Command> commands;
 }

@@ -5,6 +5,7 @@ create table post_employees
             primary key,
     name varchar(50) not null
 );
+GO
 
 create table accounts
 (
@@ -14,6 +15,7 @@ create table accounts
     login    varchar(50) not null,
     password varchar(50) not null
 );
+GO
 
 create table status_employees
 (
@@ -22,6 +24,7 @@ create table status_employees
             primary key,
     name varchar(50) not null
 );
+GO
 
 create table employees
 (
@@ -42,6 +45,7 @@ create table employees
         constraint fk_employees_status_employees
             references status_employees
 );
+GO
 
 create table status_projects
 (
@@ -50,6 +54,7 @@ create table status_projects
             primary key,
     name varchar(50) not null
 );
+GO
 
 create table projects
 (
@@ -65,6 +70,7 @@ create table projects
         constraint fk_projects_status_projects
             references status_projects
 );
+GO
 
 create table commands
 (
@@ -76,6 +82,7 @@ create table commands
         constraint fk_commands_projects
             references projects
 );
+GO
 
 create table roles
 (
@@ -84,6 +91,7 @@ create table roles
             primary key,
     name varchar(50) not null
 );
+GO
 
 create table commands_to_employees
 (
@@ -100,6 +108,7 @@ create table commands_to_employees
         constraint fk_commandstoemployees_roles
             references roles
 );
+GO
 
 create table status_tasks
 (
@@ -108,6 +117,7 @@ create table status_tasks
             primary key,
     name varchar(50) not null
 );
+GO
 
 create table tasks
 (
@@ -126,36 +136,21 @@ create table tasks
     create_date      date        not null,
     status_id        integer     not null
         constraint fk_tasks_statustasks
-            references status_tasks
+            references status_tasks,
+    project_id integer not null
+        constraint fk_tasks_projects
+            references projects
 );
 
-create table projects_to_tasks
-(
-    id         serial
-        constraint pk_projects_to_tasks
-            primary key,
-    project_id integer
-        constraint fk_projectstotasks_to_projects
-            references projects,
-    task_id    integer
-        constraint fk_projectstotasks_to_tasks
-            references tasks
-);
-
-
-
-
--- вывести наименование и описание задачи по имени работника
-select tasks.name,
-       tasks.description
-from tasks join employees on tasks.employee_id = employees.id
-where employees.name='Munir';
-
--- вывести все задачи по коду проекта
-select tasks.name,
-       tasks.description
-from tasks join projects_to_tasks on tasks.id = projects_to_tasks.task_id
-           join projects on projects_to_tasks.project_id = projects.id
-where projects.code = (select code
-                       from projects
-                       where id = 1)
+-- create table projects_to_tasks
+-- (
+--     id         serial
+--         constraint pk_projects_to_tasks
+--             primary key,
+--     project_id integer
+--         constraint fk_projectstotasks_to_projects
+--             references projects,
+--     task_id    integer
+--         constraint fk_projectstotasks_to_tasks
+--             references tasks
+-- );

@@ -5,11 +5,10 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "post_employees")
-public class PostEmployee {
+@Table(name="status_tasks")
+public class StatusTask {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
     private int id;
 
     @Column(name="name")

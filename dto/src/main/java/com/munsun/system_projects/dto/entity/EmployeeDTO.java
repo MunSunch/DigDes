@@ -1,4 +1,4 @@
-package com.munsun.system_projects.dto;
+package com.munsun.system_projects.dto.entity;
 
 import com.munsun.system_projects.commons.enums.PostEmployee;
 import com.munsun.system_projects.commons.enums.StatusEmployee;
@@ -14,6 +14,7 @@ public class EmployeeDTO {
     private PostEmployee postEmployee;
     //OneToOne
     private AccountDTO account;
+    private String email;
     //OneToMany
     private StatusEmployee statusEmployee;
 }

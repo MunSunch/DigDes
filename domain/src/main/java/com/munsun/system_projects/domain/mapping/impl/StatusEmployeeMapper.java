@@ -1,26 +1,22 @@
 package com.munsun.system_projects.domain.mapping.impl;
 
 import com.munsun.system_projects.domain.mapping.Mapper;
-import com.munsun.system_projects.domain.mapping.Parser;
 import com.munsun.system_projects.domain.model.StatusEmployee;
+import org.springframework.stereotype.Component;
 
-public class StatusEmployeeMapper extends Mapper<StatusEmployee> {
-    public StatusEmployeeMapper(Parser parser) {
-        super(parser);
+@Component
+public class StatusEmployeeMapper implements Mapper<StatusEmployee, com.munsun.system_projects.commons.enums.StatusEmployee> {
+    @Override
+    public StatusEmployee map(com.munsun.system_projects.commons.enums.StatusEmployee obj) {
+        String name = obj.name();
+        StatusEmployee statusEmployee = new StatusEmployee();
+        statusEmployee.setName(name);
+        return statusEmployee;
     }
 
     @Override
-    public StatusEmployee mapObject(String line) {
-        String[] values = parser.parse(line);
-        StatusEmployee status = new StatusEmployee();
-        status.setId(Integer.parseInt(values[0]));
-        status.setName(values[1]);
-        return status;
-    }
-
-    @Override
-    public String mapString(StatusEmployee object) {
-        return object.getId() + ","
-                + object.getName();
+    public com.munsun.system_projects.commons.enums.StatusEmployee reverseMap(StatusEmployee obj) {
+        String name = obj.getName();
+        return com.munsun.system_projects.commons.enums.StatusEmployee.valueOf(name);
     }
 }

@@ -24,6 +24,9 @@
         <org.junit.jupiter.junit-jupiter-api.version>5.9.2</org.junit.jupiter.junit-jupiter-api.version>
         <org.postgresql.postgresql.version>42.6.0</org.postgresql.postgresql.version>
         <org.liquibase.liquibase-core.version>4.22.0</org.liquibase.liquibase-core.version>
+        <org.springframework.boot.spring-boot-starter-data-jpa.version>3.1.0</org.springframework.boot.spring-boot-starter-data-jpa.version>
+        <org.springframework.boot.spring-boot-starter.version>3.1.0</org.springframework.boot.spring-boot-starter.version>
+        <org.liquibase.liquibase-maven-plugin.version>3.8.0</org.liquibase.liquibase-maven-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -55,6 +58,20 @@
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
             <version>${org.liquibase.liquibase-core.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+            <version>${org.springframework.boot.spring-boot-starter.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <version>${org.springframework.boot.spring-boot-starter-data-jpa.version}</version>
         </dependency>
 
         </dependencies>

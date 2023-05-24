@@ -1,19 +1,17 @@
 package com.munsun.system_projects.domain.model;
 
-import lombok.AllArgsConstructor;
+import jakarta.persistence.*;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
+@Entity
+@Table(name = "status_employees")
 public class StatusEmployee {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
     private int id;
+
+    @Column(name="name")
     private String name;
-
-    public StatusEmployee(int id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public StatusEmployee() {
-    }
 }

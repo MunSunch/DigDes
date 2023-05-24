@@ -1,4 +1,4 @@
-package com.munsun.system_projects.dto;
+package com.munsun.system_projects.dto.entity;
 
 import lombok.Data;
 

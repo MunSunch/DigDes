@@ -1,28 +1,26 @@
 package com.munsun.system_projects.domain.mapping.impl;
 
 import com.munsun.system_projects.domain.mapping.Mapper;
-import com.munsun.system_projects.domain.mapping.Parser;
 import com.munsun.system_projects.domain.model.Account;
+import com.munsun.system_projects.dto.entity.AccountDTO;
+import org.springframework.stereotype.Component;
 
-public class AccountMapper extends Mapper<Account> {
-    public AccountMapper(Parser parser) {
-        super(parser);
-    }
-
+@Component
+public class AccountMapper implements Mapper<Account, AccountDTO> {
     @Override
-    public Account mapObject(String line) {
-        String[] values = parser.parse(line);
+    public Account map(AccountDTO obj) {
         Account account = new Account();
-        account.setId(Integer.parseInt(values[0]));
-        account.setLogin(values[1]);
-        account.setPassword(values[2]);
+        account.setLogin(obj.getLogin());
+        account.setPassword(obj.getPassword());
         return account;
     }
 
     @Override
-    public String mapString(Account account) {
-        return account.getId() + ","
-                + account.getLogin() + ","
-                + account.getPassword();
+    public AccountDTO reverseMap(Account obj) {
+        AccountDTO accountDTO = new AccountDTO();
+        accountDTO.setId(obj.getId());
+        accountDTO.setLogin(obj.getLogin());
+        accountDTO.setPassword(obj.getPassword());
+        return accountDTO;
     }
 }
