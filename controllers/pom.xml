@@ -17,13 +17,13 @@
         <dependency>
             <groupId>com.munsun.system_projects.domain</groupId>
             <artifactId>domain</artifactId>
-            <version>0.0.0</version>
+            <version>${version}</version>
         </dependency>
 
         <dependency>
             <artifactId>dto</artifactId>
             <groupId>com.munsun.system_projects.dto</groupId>
-            <version>0.0.0</version>
+            <version>${version}</version>
         </dependency>
     </dependencies>
 
