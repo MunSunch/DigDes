@@ -7,17 +7,20 @@ import com.munsun.system_projects.domain.service.impl.EmployeeServiceImpl;
 import com.munsun.system_projects.dto.config.ConfigDTO;
 import com.munsun.system_projects.dto.entity.AccountDTO;
 import com.munsun.system_projects.dto.entity.EmployeeDTO;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 
 @SpringBootApplication
 @Import({ConfigDomain.class, ConfigDTO.class})
-public class Application {
+public class Application implements CommandLineRunner {
+    @Override
+    public void run(String... args) throws Exception {
+
+    }
+
     public static void main(String[] args) {
-        var context = SpringApplication.run(Application.class);
-        var service = context.getBean(EmployeeServiceImpl.class);
-
-
+        SpringApplication.run(Application.class);
     }
 }
