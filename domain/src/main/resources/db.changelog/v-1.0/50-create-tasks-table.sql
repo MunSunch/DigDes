@@ -15,5 +15,10 @@ create table tasks
     create_date      date        not null,
     status_id        integer     not null
         constraint fk_tasks_statustasks
-            references status_tasks
+            references status_tasks,
+    project_id integer not null
 );
+
+alter table tasks
+add constraint fk_tasks_projects foreign key(project_id)
+    references projects(id);

@@ -23,7 +23,8 @@ public class Employee {
     @Column(name="patronymic", nullable = true)
     private String patronymic;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+            CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name="post_id",  referencedColumnName = "id")
     private PostEmployee postEmployee;
 
@@ -34,7 +35,8 @@ public class Employee {
     @Column(name="email", nullable = true)
     private String email;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+            CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "status_employees_id",  referencedColumnName = "id")
     private StatusEmployee statusEmployee;
 

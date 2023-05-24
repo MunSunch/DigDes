@@ -26,6 +26,7 @@
         <org.liquibase.liquibase-core.version>4.22.0</org.liquibase.liquibase-core.version>
         <org.springframework.boot.spring-boot-starter-data-jpa.version>3.1.0</org.springframework.boot.spring-boot-starter-data-jpa.version>
         <org.springframework.boot.spring-boot-starter.version>3.1.0</org.springframework.boot.spring-boot-starter.version>
+        <org.liquibase.liquibase-maven-plugin.version>3.8.0</org.liquibase.liquibase-maven-plugin.version>
     </properties>
 
     <dependencyManagement>

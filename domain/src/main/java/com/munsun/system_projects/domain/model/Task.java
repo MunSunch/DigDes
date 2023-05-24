@@ -1,10 +1,7 @@
 package com.munsun.system_projects.domain.model;
 
-import com.munsun.system_projects.commons.enums.StatusTask;
 import jakarta.persistence.*;
 import lombok.Data;
-
-import java.util.List;
 
 @Data
 @Entity
@@ -43,12 +40,12 @@ public class Task {
     @Column(name="create_date")
     private java.sql.Date createDate;
 
-    @Column(name="status_id")
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+            CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinColumn(name="status_id", referencedColumnName = "id")
     private StatusTask statusTask;
 
-    @ManyToMany
-    @JoinTable(name="projects_to_tasks",
-            joinColumns = @JoinColumn(name="task_id"),
-            inverseJoinColumns = @JoinColumn(name="project_id"))
-    private List<Project> projects;
+    @ManyToOne
+    @JoinColumn(name="project_id", referencedColumnName = "id")
+    private Project project;
 }

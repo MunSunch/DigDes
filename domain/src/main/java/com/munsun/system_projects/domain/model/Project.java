@@ -22,13 +22,12 @@ public class Project {
     @Column(name="description")
     private String description;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+            CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "status_project_id")
     private StatusProject status;
 
-    @ManyToMany
-    @JoinTable(name="projects_to_tasks",
-        joinColumns = @JoinColumn(name="project_id"),
-        inverseJoinColumns = @JoinColumn(name="task_id"))
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "project_id")
     private List<Task> tasks;
 }
