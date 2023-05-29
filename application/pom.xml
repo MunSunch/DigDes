@@ -20,8 +20,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.munsun.system_projects.controllers</groupId>
-            <artifactId>controllers</artifactId>
+            <groupId>com.munsun.system_projects.web</groupId>
+            <artifactId>web</artifactId>
             <version>${version}</version>
         </dependency>
 
@@ -32,8 +32,8 @@
         </dependency>
 
         <dependency>
-            <groupId>com.munsun.system_projects.domain</groupId>
-            <artifactId>domain</artifactId>
+            <groupId>com.munsun.system_projects.business</groupId>
+            <artifactId>business</artifactId>
             <version>${version}</version>
         </dependency>
 
@@ -47,6 +47,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.munsun.system_projects.security</groupId>
+            <artifactId>security</artifactId>
+            <version>${version}</version>
         </dependency>
     </dependencies>
 

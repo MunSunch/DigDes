@@ -10,11 +10,12 @@
     <version>0.0.0</version>
 
     <modules>
-        <module>domain</module>
+        <module>business</module>
         <module>dto</module>
-        <module>controllers</module>
+        <module>web</module>
         <module>Application</module>
         <module>commons</module>
+        <module>security</module>
     </modules>
 
     <properties>
@@ -27,6 +28,9 @@
         <org.springframework.boot.spring-boot-starter-data-jpa.version>3.1.0</org.springframework.boot.spring-boot-starter-data-jpa.version>
         <org.springframework.boot.spring-boot-starter.version>3.1.0</org.springframework.boot.spring-boot-starter.version>
         <org.liquibase.liquibase-maven-plugin.version>3.8.0</org.liquibase.liquibase-maven-plugin.version>
+        <org.springframework.boot.spring-boot-starter-web.version>3.1.0</org.springframework.boot.spring-boot-starter-web.version>
+        <org.springdoc.springdoc-openapi-starter-webmvc-ui.version>2.1.0</org.springdoc.springdoc-openapi-starter-webmvc-ui.version>
+        <org.springframework.boot.spring-boot-starter-security.version>3.1.0</org.springframework.boot.spring-boot-starter-security.version>
     </properties>
 
     <dependencyManagement>
@@ -74,7 +78,27 @@
             <version>${org.springframework.boot.spring-boot-starter-data-jpa.version}</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>${org.springframework.boot.spring-boot-starter-web.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>${org.springdoc.springdoc-openapi-starter-webmvc-ui.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+            <version>${org.springframework.boot.spring-boot-starter-security.version}</version>
+        </dependency>
+
         </dependencies>
     </dependencyManagement>
-
 </project>
