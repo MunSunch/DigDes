@@ -122,11 +122,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public EmployeeDTO getEmployee(AccountDTO accountDTO) {
-        Account account = mapperAccount.map(accountDTO);
-        Employee employee = employeeRepository.get(account);
-        if(employee == null)
-            throw new IllegalArgumentException("Сотрудника с такой учетной записью не существует");
+    public EmployeeDTO getEmployee(String login) throws IllegalArgumentException {
+        Employee employee = employeeRepository.findEmployeeByAccount_Login(login).orElseThrow(
+                () -> new IllegalArgumentException("Сотрудника с такой учетной записью не существует")
+        );
         return mapperEmployee.reverseMap(employee);
     }
 }

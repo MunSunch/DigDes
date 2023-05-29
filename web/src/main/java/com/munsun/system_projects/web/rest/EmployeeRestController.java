@@ -69,9 +69,9 @@ public class EmployeeRestController {
     }
 
     @Operation(summary = "Получение сотрудника по его учетной записи")
-    @GetMapping(value = "/getEmployeeByAccount", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/getEmployeeByAccount/{login}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('create:employee')")
-    public EmployeeDTO getByAccount(@Parameter(description = "Учетная запись") @RequestBody AccountDTO accountDTO) {
-        return service.getEmployee(accountDTO);
+    public EmployeeDTO getByAccount(@Parameter(description = "Логин учетной записи") @PathVariable("login") String login) {
+        return service.getEmployee(login);
     }
 }

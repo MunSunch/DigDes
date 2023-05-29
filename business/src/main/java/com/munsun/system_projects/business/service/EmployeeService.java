@@ -11,5 +11,5 @@ public interface EmployeeService {
     EmployeeDTO removeEmployeeById(int id);
     List<EmployeeDTO> getEmployees(String str);
     EmployeeDTO getEmployee(int id);
-    EmployeeDTO getEmployee(AccountDTO accountDTO);
+    EmployeeDTO getEmployee(String login);
 }
