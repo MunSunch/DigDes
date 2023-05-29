@@ -9,20 +9,20 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.munsun.system_projects.web</groupId>
+    <groupId>com.munsun.system_projects</groupId>
     <artifactId>web</artifactId>
     <version>0.0.0</version>
 
     <dependencies>
         <dependency>
-            <groupId>com.munsun.system_projects.business</groupId>
+            <groupId>com.munsun.system_projects</groupId>
             <artifactId>business</artifactId>
             <version>${version}</version>
         </dependency>
 
         <dependency>
             <artifactId>dto</artifactId>
-            <groupId>com.munsun.system_projects.dto</groupId>
+            <groupId>com.munsun.system_projects</groupId>
             <version>${version}</version>
         </dependency>
 

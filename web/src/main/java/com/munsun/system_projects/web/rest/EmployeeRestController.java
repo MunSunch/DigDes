@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/system_project/employees")
+@RequestMapping("/employees")
 @Tag(name="Сотрудники", description = "Методы для работы с сотрудниками")
 public class EmployeeRestController {
     private final EmployeeService service;

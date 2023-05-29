@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.util.Date;
@@ -15,8 +16,7 @@ import java.util.Date;
 @Schema(description = "Задача")
 public class TaskDTO {
     @Schema(description = "Идентификатор")
-    @Min(1)
-    @Max(Integer.MAX_VALUE)
+    @Size(min = 1)
     @JsonProperty("id")
     private int id;
 

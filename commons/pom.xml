@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>commons</artifactId>
-    <groupId>com.munsun.system_projects.commons</groupId>
+    <groupId>com.munsun.system_projects</groupId>
     <version>0.0.0</version>
 
     <properties>

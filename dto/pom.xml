@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dto</artifactId>
-    <groupId>com.munsun.system_projects.dto</groupId>
+    <groupId>com.munsun.system_projects</groupId>
     <version>0.0.0</version>
 
     <properties>
@@ -27,7 +27,7 @@
 
         <dependency>
             <artifactId>commons</artifactId>
-            <groupId>com.munsun.system_projects.commons</groupId>
+            <groupId>com.munsun.system_projects</groupId>
             <version>${version}</version>
         </dependency>
 

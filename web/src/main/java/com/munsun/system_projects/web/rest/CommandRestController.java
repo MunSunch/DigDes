@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/system_projects/commands")
+@RequestMapping(value = "/commands")
 @Tag(name="Команды", description = "Методы для работы с командами")
 public class CommandRestController {
     private final CommandService service;

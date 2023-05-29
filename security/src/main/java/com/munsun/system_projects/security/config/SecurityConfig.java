@@ -29,8 +29,7 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((requests) -> {
-                    requests.requestMatchers("/system_projects").permitAll()
-                            .anyRequest().authenticated();
+                    requests.anyRequest().authenticated();
                 })
                 .httpBasic(Customizer.withDefaults())
                 .logout(logout -> {

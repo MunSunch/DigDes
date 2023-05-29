@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/system_projects/tasks")
+@RequestMapping("/tasks")
 @Tag(name="Задачи", description = "методы для работы с задачами")
 public class TaskRestController {
     private final TaskService service;
