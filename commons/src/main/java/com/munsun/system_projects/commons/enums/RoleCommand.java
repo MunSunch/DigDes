@@ -1,5 +1,5 @@
 package com.munsun.system_projects.commons.enums;
 
 public enum RoleCommand {
-    ACTIVE, NONE
+    DEVELOPER, MANAGER,TESTER,DESIGNER,LEAD
 }

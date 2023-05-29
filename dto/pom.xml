@@ -5,13 +5,13 @@
     <parent>
         <artifactId>DigDesProjects</artifactId>
         <groupId>com.munsun.system_projects</groupId>
-        <version>0.0.0</version>
+        <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dto</artifactId>
-    <groupId>com.munsun.system_projects.dto</groupId>
-    <version>0.0.0</version>
+    <groupId>com.munsun.system_projects</groupId>
+    <version>1.0-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>18</maven.compiler.source>
@@ -27,9 +27,20 @@
 
         <dependency>
             <artifactId>commons</artifactId>
-            <groupId>com.munsun.system_projects.commons</groupId>
+            <groupId>com.munsun.system_projects</groupId>
             <version>${version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>
