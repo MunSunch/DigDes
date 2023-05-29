@@ -4,6 +4,7 @@ import com.munsun.system_projects.business.repository.CommandRepository;
 import com.munsun.system_projects.business.service.CommandService;
 import com.munsun.system_projects.commons.enums.RoleCommand;
 import com.munsun.system_projects.dto.entity.CommandDTO;
+import com.munsun.system_projects.dto.entity.CommandEmployeesDTO;
 import com.munsun.system_projects.dto.entity.EmployeeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public class CommandServiceImpl implements CommandService {
     }
 
     @Override
-    public CommandDTO addEmployeeCommand(int idProject, EmployeeDTO employeeDTO, RoleCommand roleCommand) {
+    public CommandDTO addEmployeeCommand(int idProject, CommandEmployeesDTO commandEmployeesDTO) {
         return null;
     }
 

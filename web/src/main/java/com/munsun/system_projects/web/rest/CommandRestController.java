@@ -3,6 +3,7 @@ package com.munsun.system_projects.web.rest;
 import com.munsun.system_projects.business.service.CommandService;
 import com.munsun.system_projects.commons.enums.RoleCommand;
 import com.munsun.system_projects.dto.entity.CommandDTO;
+import com.munsun.system_projects.dto.entity.CommandEmployeesDTO;
 import com.munsun.system_projects.dto.entity.EmployeeDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -37,10 +38,9 @@ public class CommandRestController {
     @PreAuthorize("hasAuthority('command:update')")
     public CommandDTO addEmployee(
             @Parameter(description = "Идентификатор проекта") @PathVariable int idProject,
-            @Parameter(description = "Сотрудник") @RequestBody EmployeeDTO employeeDTO,
-            @Parameter(description = "Роль в команде") @RequestParam("role") RoleCommand roleCommand)
+            @Parameter(description = "Команда-Работники") @RequestBody CommandEmployeesDTO commandEmployeesDTO)
     {
-        return service.addEmployeeCommand(idProject, employeeDTO, roleCommand);
+        return service.addEmployeeCommand(idProject, commandEmployeesDTO);
     }
 
     @Operation(summary = "Удаление сотрудника по идентификаторам проекта и сотрудника")
