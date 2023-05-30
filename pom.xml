@@ -31,6 +31,7 @@
         <org.springframework.boot.spring-boot-starter-web.version>3.1.0</org.springframework.boot.spring-boot-starter-web.version>
         <org.springdoc.springdoc-openapi-starter-webmvc-ui.version>2.1.0</org.springdoc.springdoc-openapi-starter-webmvc-ui.version>
         <org.springframework.boot.spring-boot-starter-security.version>3.1.0</org.springframework.boot.spring-boot-starter-security.version>
+        <org.springframework.boot.spring-boot-starter-test.version>3.1.0</org.springframework.boot.spring-boot-starter-test.version>
     </properties>
 
     <dependencyManagement>
@@ -97,6 +98,14 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
             <version>${org.springframework.boot.spring-boot-starter-security.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <version>${org.springframework.boot.spring-boot-starter-test.version}</version>
+            <scope>test</scope>
         </dependency>
 
         </dependencies>

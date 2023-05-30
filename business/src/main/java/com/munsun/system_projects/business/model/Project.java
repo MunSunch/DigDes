@@ -13,10 +13,10 @@ public class Project {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name="code", unique = true)
+    @Column(name="code", unique = true, nullable = false)
     private String code;
 
-    @Column(name="name")
+    @Column(name="name", nullable = false)
     private String name;
 
     @Column(name="description")
