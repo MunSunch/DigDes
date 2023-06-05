@@ -1,6 +1,6 @@
-package com.munsun.system_projects.business.tests.service.impl.specification;
+package com.munsun.system_projects.business.service.impl.specification;
 
-import com.munsun.system_projects.business.tests.model.Project;
+import com.munsun.system_projects.business.model.Project;
 import com.munsun.system_projects.commons.enums.StatusProject;
 import jakarta.persistence.criteria.Predicate;
 import org.apache.commons.lang3.ObjectUtils;

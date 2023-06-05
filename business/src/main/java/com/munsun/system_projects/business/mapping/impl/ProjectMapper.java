@@ -1,6 +1,6 @@
-package com.munsun.system_projects.business.mapping.mapping.impl;
+package com.munsun.system_projects.business.mapping.impl;
 
-import com.munsun.system_projects.business.mapping.mapping.Mapper;
+import com.munsun.system_projects.business.mapping.Mapper;
 import com.munsun.system_projects.business.model.Project;
 import com.munsun.system_projects.business.model.StatusProject;
 import com.munsun.system_projects.dto.entity.ProjectDTO;

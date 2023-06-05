@@ -1,6 +1,6 @@
-package com.munsun.system_projects.business.tests.repository;
+package com.munsun.system_projects.business.repository;
 
-import com.munsun.system_projects.business.tests.model.Account;
+import com.munsun.system_projects.business.model.Account;
 import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;

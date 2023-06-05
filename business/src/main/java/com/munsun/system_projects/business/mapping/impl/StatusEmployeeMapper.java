@@ -1,11 +1,11 @@
-package com.munsun.system_projects.business.mapping.mapping.impl;
+package com.munsun.system_projects.business.mapping.impl;
 
-import com.munsun.system_projects.business.mapping.mapping.Mapper;
+import com.munsun.system_projects.business.mapping.Mapper;
 import com.munsun.system_projects.business.model.StatusEmployee;
 import org.springframework.stereotype.Component;
 
 @Component
-public class StatusEmployeeMapper implements Mapper<StatusEmployee, StatusEmployee> {
+public class StatusEmployeeMapper implements Mapper<StatusEmployee, com.munsun.system_projects.commons.enums.StatusEmployee> {
     @Override
     public StatusEmployee map(com.munsun.system_projects.commons.enums.StatusEmployee obj) {
         String name = obj.name();

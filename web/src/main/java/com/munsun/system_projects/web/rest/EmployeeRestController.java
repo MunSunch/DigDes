@@ -1,8 +1,8 @@
 package com.munsun.system_projects.web.rest;
 
 import com.munsun.system_projects.business.service.EmployeeService;
-import com.munsun.system_projects.dto.entity.AccountDTO;
 import com.munsun.system_projects.dto.entity.EmployeeDTO;
+import exp.UserNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -27,8 +27,7 @@ public class EmployeeRestController {
     @Operation(summary = "Сохранение сотрудника")
     @PostMapping(value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('create:employee')")
-    public EmployeeDTO save(@RequestBody EmployeeDTO employeeDTO)
-    {
+    public EmployeeDTO save(@RequestBody EmployeeDTO employeeDTO) throws Exception {
         EmployeeDTO result = service.createEmployee(employeeDTO);
         return result;
     }
@@ -36,16 +35,14 @@ public class EmployeeRestController {
     @Operation(summary = "Получение сотрудника по идентификатору")
     @GetMapping(value = "/getById/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('read:employee')")
-    public EmployeeDTO getById(@Parameter(description = "Идентификатор") @PathVariable int id)
-    {
-        return service.getEmployee(id);
+    public EmployeeDTO getById(@Parameter(description = "Идентификатор") @PathVariable int id) throws UserNotFoundException {
+        return service.getEmployeeById(id);
     }
 
     @Operation(summary = "Удаление сотрудника по идентификатору")
     @DeleteMapping(value = "/deleteById", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('delete:employee')")
-    public EmployeeDTO deleteById(@Parameter(description = "Идентификатор") @RequestParam int id)
-    {
+    public EmployeeDTO deleteById(@Parameter(description = "Идентификатор") @RequestParam int id) throws UserNotFoundException {
         return service.removeEmployeeById(id);
     }
 
@@ -53,8 +50,7 @@ public class EmployeeRestController {
     @PutMapping(value = "/updateEmployee/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('update:employee')")
     public EmployeeDTO updateById(@Parameter(description = "Идентификатор") @PathVariable int id,
-            @RequestBody EmployeeDTO employeeDTO)
-    {
+            @RequestBody EmployeeDTO employeeDTO) throws Exception {
         return service.setEmployee(id, employeeDTO);
     }
 
@@ -65,13 +61,13 @@ public class EmployeeRestController {
     public List<EmployeeDTO> getByString(
             @Parameter(description = "Строка") @RequestParam(name="string") String str)
     {
-        return service.getEmployees(str);
+        return service.findEmployeesByString(str);
     }
 
     @Operation(summary = "Получение сотрудника по его учетной записи")
     @GetMapping(value = "/getEmployeeByAccount/{login}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('create:employee')")
-    public EmployeeDTO getByAccount(@Parameter(description = "Логин учетной записи") @PathVariable("login") String login) {
-        return service.getEmployee(login);
+    public EmployeeDTO getByAccount(@Parameter(description = "Логин учетной записи") @PathVariable("login") String login) throws UserNotFoundException {
+        return service.getEmployeeByAccount(login);
     }
 }

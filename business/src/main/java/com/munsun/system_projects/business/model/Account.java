@@ -1,4 +1,4 @@
-package com.munsun.system_projects.business.tests.model;
+package com.munsun.system_projects.business.model;
 
 import jakarta.persistence.*;
 import lombok.Data;

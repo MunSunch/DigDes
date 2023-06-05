@@ -1,8 +1,8 @@
-package com.munsun.system_projects.business.tests.repository;
+package com.munsun.system_projects.business.repository;
 
-import com.munsun.system_projects.business.tests.model.Employee;
+import com.munsun.system_projects.business.model.Employee;
 
-import com.munsun.system_projects.business.tests.model.StatusEmployee;
+import com.munsun.system_projects.business.model.StatusEmployee;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
