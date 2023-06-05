@@ -1,11 +1,11 @@
-package com.munsun.system_projects.business.mapping.impl;
+package com.munsun.system_projects.business.mapping.mapping.impl;
 
-import com.munsun.system_projects.business.mapping.Mapper;
+import com.munsun.system_projects.business.mapping.mapping.Mapper;
 import com.munsun.system_projects.business.model.StatusTask;
 import org.springframework.stereotype.Component;
 
 @Component
-public class StatusTaskMapper implements Mapper<StatusTask, com.munsun.system_projects.commons.enums.StatusTask> {
+public class StatusTaskMapper implements Mapper<StatusTask, StatusTask> {
     @Override
     public StatusTask map(com.munsun.system_projects.commons.enums.StatusTask obj) {
         StatusTask statusTask = new StatusTask();

@@ -1,19 +1,20 @@
-package com.munsun.system_projects.business.service.impl;
+package com.munsun.system_projects.business.tests.service.impl;
 
-import com.munsun.system_projects.business.model.PostEmployee;
-import com.munsun.system_projects.business.model.StatusEmployee;
-import com.munsun.system_projects.business.repository.AccountRepository;
-import com.munsun.system_projects.business.repository.PostEmployeeRepository;
-import com.munsun.system_projects.business.repository.StatusEmployeeRepository;
-import com.munsun.system_projects.business.mapping.Mapper;
-import com.munsun.system_projects.business.model.Account;
-import com.munsun.system_projects.business.model.Employee;
-import com.munsun.system_projects.business.repository.EmployeeRepository;
-import com.munsun.system_projects.business.service.EmployeeService;
-import com.munsun.system_projects.business.service.impl.specification.AccountSpecification;
-import com.munsun.system_projects.business.service.impl.specification.EmployeeSpecification;
+import com.munsun.system_projects.business.tests.model.PostEmployee;
+import com.munsun.system_projects.business.tests.model.StatusEmployee;
+import com.munsun.system_projects.business.tests.repository.AccountRepository;
+import com.munsun.system_projects.business.tests.repository.PostEmployeeRepository;
+import com.munsun.system_projects.business.tests.repository.StatusEmployeeRepository;
+import com.munsun.system_projects.business.tests.mapping.Mapper;
+import com.munsun.system_projects.business.tests.model.Account;
+import com.munsun.system_projects.business.tests.model.Employee;
+import com.munsun.system_projects.business.tests.repository.EmployeeRepository;
+import com.munsun.system_projects.business.tests.service.EmployeeService;
+import com.munsun.system_projects.business.tests.service.impl.specification.EmployeeSpecification;
 import com.munsun.system_projects.dto.entity.AccountDTO;
 import com.munsun.system_projects.dto.entity.EmployeeDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +23,8 @@ import java.util.List;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
+    private final Logger logger = LoggerFactory.getLogger(EmployeeServiceImpl.class);
+
     private final EmployeeRepository employeeRepository;
     private final PostEmployeeRepository postEmployeeRepository;
     private final StatusEmployeeRepository statusEmployeeRepository;
@@ -46,66 +49,75 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public EmployeeDTO createEmployee(EmployeeDTO employeeDTO) {
+        logger.info("Создание нового сотрудника...");
+        checkEmployeeDTO(employeeDTO);
+        employeeDTO.setStatusEmployee(com.munsun.system_projects.commons.enums.StatusEmployee.ACTIVE);
         Employee employee = mapperEmployee.map(employeeDTO);
-        checkEmployee(employee);
         employee.setPostEmployee(postEmployeeRepository.getPostEmployeeByName(employee.getPostEmployee().getName()));
         employee.setStatusEmployee(statusEmployeeRepository.getStatusEmployeeByName(employee.getStatusEmployee().getName()));
+        logger.info("Сохранение сотрудника...");
         employeeRepository.save(employee);
+        logger.info("Сохранение прошло успешно...");
         return mapperEmployee.reverseMap(employee);
     }
 
-    private void checkEmployee(Employee employee) {
-        if(checkDuplicatesAccount(employee.getAccount()))
-            throw new IllegalArgumentException("Такая учетная запись существует");
-        if(!checkExistsPostEmployee(employee.getPostEmployee()))
-            throw new IllegalArgumentException("Такой должности не существует");
-        if(!checkExistsStatusEmployee(employee.getStatusEmployee()))
-            throw new IllegalArgumentException("Такого статуса не существует");
-        if(employeeRepository.exists(EmployeeSpecification.getSpecEquals(employee)))
+    private void checkEmployeeDTO(EmployeeDTO employeeDTO) {
+        logger.info("Проверка полей сотрудника на заполненность...");
+        if(employeeDTO==null
+                || employeeDTO.getName()==null || "".equals(employeeDTO.getName())
+                || employeeDTO.getLastname()==null || "".equals(employeeDTO.getLastname())
+                || employeeDTO.getAccount().getLogin()==null || employeeDTO.getAccount().getPassword()==null
+                || "".equals(employeeDTO.getAccount().getLogin()) || "".equals(employeeDTO.getAccount().getPassword())
+                || "".equals(employeeDTO.getPytronymic())
+                || "".equals(employeeDTO.getEmail()))
+        {
+            logger.error("Проверка на заполненность сотрудника провалена...");
+            throw new IllegalArgumentException("Обязательные поля не заполнены");
+        }
+        logger.info("Поиск дубликатов сотрудников...");
+        if(employeeRepository.exists(EmployeeSpecification.getSpecEquals(employeeDTO.getName(), employeeDTO.getLastname(),
+                employeeDTO.getPytronymic(), employeeDTO.getEmail())))
+        {
+            logger.error("Поиск дубликатов сотрудников провален...");
             throw new IllegalArgumentException("Сотрудник с таким ФИО и имейлом существует");
-    }
-
-    private boolean checkDuplicatesAccount(Account account) {
-        return accountRepository.exists(AccountSpecification.getSpecEquals(account));
-    }
-
-    private boolean checkExistsPostEmployee(PostEmployee post) {
-        return postEmployeeRepository.getPostEmployeeByName(post.getName()) != null;
-    }
-
-    private boolean checkExistsStatusEmployee(StatusEmployee status) {
-        return statusEmployeeRepository.getStatusEmployeeByName(status.getName()) != null;
+        }
+        logger.info("Поиск дубликатов логинов...");
+        if(accountRepository.existsAccountByLogin(employeeDTO.getAccount().getLogin())) {
+            logger.error("Поиск дубликатов логинов провален...");
+            throw new IllegalArgumentException("Такая учетная запись существует");
+        }
+        logger.info("Проверка полей сотрудника выполнена...");
     }
 
     @Override
     public EmployeeDTO setEmployee(int id, EmployeeDTO newEmployeeDTO) {
-        if(newEmployeeDTO.getStatusEmployee() != com.munsun.system_projects.commons.enums.StatusEmployee.ACTIVE)
-            throw new IllegalArgumentException("Статус должен быть ACTIVE");
         if(!employeeRepository.existsById(id))
             throw new IllegalArgumentException("Сотрудника с таким идентификатором не существует");
-        Employee employee = mapperEmployee.map(newEmployeeDTO);
-        checkEmployee(employee);
+        checkEmployeeDTO(newEmployeeDTO);
+        Employee employee = employeeRepository.getReferenceById(id);
+        if(!employee.getStatusEmployee().getName()
+                .equals(com.munsun.system_projects.commons.enums.StatusEmployee.ACTIVE.name()))
+            throw new IllegalArgumentException("Статус должен быть ACTIVE");
         employee.setPostEmployee(postEmployeeRepository.getPostEmployeeByName(employee.getPostEmployee().getName()));
         employee.setStatusEmployee(statusEmployeeRepository.getStatusEmployeeByName(employee.getStatusEmployee().getName()));
-        Employee result = employeeRepository.getReferenceById(id);
-        return mapperEmployee.reverseMap(result);
+        employeeRepository.setEmployee(id, employee);
+        return mapperEmployee.reverseMap(employeeRepository.getReferenceById(id));
     }
 
-    @Transactional
     @Override
     public EmployeeDTO removeEmployeeById(int id) {
-        Employee employee = employeeRepository.getReferenceById(id);
-        if(employee == null)
+        boolean isExists = employeeRepository.existsById(id);
+        if(!isExists)
             throw new IllegalArgumentException("Сотрудника с таким идентификатором не существует");
-        StatusEmployee removedStatus = statusEmployeeRepository.getStatusEmployeeByName(com.munsun.system_projects.commons.enums.StatusEmployee.REMOVED.name());
-        employee.setStatusEmployee(removedStatus);
-        EmployeeDTO employeeDTO = mapperEmployee.reverseMap(employee);
-        setEmployee(employee.getId(), employeeDTO);
-        return mapperEmployee.reverseMap(employee);
+        var statusRemoved = statusEmployeeRepository.getStatusEmployeeByName(com.munsun.system_projects.commons.enums.StatusEmployee.REMOVED.name());
+        employeeRepository.setEmployeeStatus(id, statusRemoved);
+        return mapperEmployee.reverseMap(employeeRepository.getReferenceById(id));
     }
 
     @Override
-    public List<EmployeeDTO> getEmployees(String str) {
+    public List<EmployeeDTO> findEmployeesByString(String str) {
+        if(str==null || "".equals(str))
+            throw new IllegalArgumentException("Поле не заполнено");
         List<Employee> employees = employeeRepository.search(str, com.munsun.system_projects.commons.enums.StatusEmployee.ACTIVE.name());
         return employees.stream()
                 .map(mapperEmployee::reverseMap)
@@ -122,7 +134,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public EmployeeDTO getEmployee(String login) throws IllegalArgumentException {
+    public EmployeeDTO getEmployeeByAccount(String login) throws IllegalArgumentException {
+        if("".equals(login) || login==null)
+            throw new IllegalArgumentException("Логин не заполнен");
         Employee employee = employeeRepository.findEmployeeByAccount_Login(login).orElseThrow(
                 () -> new IllegalArgumentException("Сотрудника с такой учетной записью не существует")
         );

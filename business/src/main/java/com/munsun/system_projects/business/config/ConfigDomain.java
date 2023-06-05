@@ -1,4 +1,4 @@
-package com.munsun.system_projects.business.config;
+package com.munsun.system_projects.business.tests.config;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;

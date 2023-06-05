@@ -1,6 +1,6 @@
-package com.munsun.system_projects.business.service.impl.specification;
+package com.munsun.system_projects.business.tests.service.impl.specification;
 
-import com.munsun.system_projects.business.model.Account;
+import com.munsun.system_projects.business.tests.model.Account;
 import jakarta.persistence.criteria.Predicate;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.data.jpa.domain.Specification;
