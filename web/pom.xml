@@ -21,8 +21,8 @@
         </dependency>
 
         <dependency>
-            <artifactId>dto</artifactId>
             <groupId>com.munsun.system_projects</groupId>
+            <artifactId>dto</artifactId>
             <version>${version}</version>
         </dependency>
 

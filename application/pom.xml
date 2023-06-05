@@ -33,12 +33,6 @@
 
         <dependency>
             <groupId>com.munsun.system_projects</groupId>
-            <artifactId>business</artifactId>
-            <version>${version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.munsun.system_projects</groupId>
             <artifactId>commons</artifactId>
             <version>${version}</version>
         </dependency>

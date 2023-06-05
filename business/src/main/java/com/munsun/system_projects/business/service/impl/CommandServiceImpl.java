@@ -2,7 +2,6 @@ package com.munsun.system_projects.business.service.impl;
 
 import com.munsun.system_projects.business.repository.CommandRepository;
 import com.munsun.system_projects.business.service.CommandService;
-import com.munsun.system_projects.commons.enums.RoleCommand;
 import com.munsun.system_projects.dto.entity.CommandDTO;
 import com.munsun.system_projects.dto.entity.CommandEmployeesDTO;
 import com.munsun.system_projects.dto.entity.EmployeeDTO;
@@ -13,11 +12,11 @@ import java.util.List;
 
 @Service
 public class CommandServiceImpl implements CommandService {
-    private final CommandRepository repository;
+    private CommandRepository commandRepository;
 
     @Autowired
-    public CommandServiceImpl(CommandRepository repository) {
-        this.repository = repository;
+    public CommandServiceImpl(CommandRepository commandRepository) {
+        this.commandRepository = commandRepository;
     }
 
     @Override

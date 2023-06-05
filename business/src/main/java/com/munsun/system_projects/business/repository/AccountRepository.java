@@ -10,4 +10,5 @@ import org.springframework.stereotype.Repository;
 public interface AccountRepository extends JpaRepository<Account, Integer>, JpaSpecificationExecutor<Account> {
     @Override
     <S extends Account> boolean exists(Example<S> example);
+    boolean existsAccountByLogin(String login);
 }
