@@ -1,0 +1,9 @@
+version: '3.9'
+services:
+  system_project-db-test:
+    image: postgres
+    environment:
+      - POSTGRES_USER = test
+      - POSTGRES_PASSWORD = test
+    ports:
+      - '8083:8083'

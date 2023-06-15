@@ -9,25 +9,19 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>dto</artifactId>
+    <artifactId>web</artifactId>
     <version>${project.version}</version>
-
-    <properties>
-        <project.version>1.0</project.version>
-        <maven.compiler.source>18</maven.compiler.source>
-        <maven.compiler.target>18</maven.compiler.target>
-    </properties>
 
     <dependencies>
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <scope>provided</scope>
+            <groupId>com.munsun.system_projects</groupId>
+            <artifactId>business</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>commons</artifactId>
             <groupId>com.munsun.system_projects</groupId>
+            <artifactId>dto</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -41,6 +35,23 @@
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
     </dependencies>
+
+    <properties>
+        <project.version>1.0</project.version>
+        <maven.compiler.source>18</maven.compiler.source>
+        <maven.compiler.target>18</maven.compiler.target>
+    </properties>
 
 </project>

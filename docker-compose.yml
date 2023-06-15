@@ -1,0 +1,28 @@
+version: '3'
+services:
+  postgres-db:
+    image: postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=4669
+      - POSTGRES_DB=system_projects_db
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - ./imports/db/:/docker-entrypoint-initdb.d/
+    restart: always
+    networks:
+      - backend
+
+  system-projects-app:
+    build:
+      context: .
+    ports:
+      - target: 9999
+        published: 8081
+        protocol: tcp
+        mode: host
+    networks:
+      - backend
+
+networks:
+  backend:

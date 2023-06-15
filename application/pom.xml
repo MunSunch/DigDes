@@ -5,25 +5,76 @@
     <parent>
         <artifactId>DigDesProjects</artifactId>
         <groupId>com.munsun.system_projects</groupId>
-        <version>0.0.0</version>
+        <version>1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.munsun.system_projects.app</groupId>
-    <artifactId>Application</artifactId>
-    <version>0.0.0</version>
-
-    <dependencies>
-        <dependency>
-            <groupId>com.munsun.system_projects.controllers</groupId>
-            <artifactId>controllers</artifactId>
-            <version>0.0.0</version>
-        </dependency>
-    </dependencies>
+    <artifactId>application</artifactId>
+    <version>${project.version}</version>
 
     <properties>
+        <project.version>1.0</project.version>
         <maven.compiler.source>18</maven.compiler.source>
         <maven.compiler.target>18</maven.compiler.target>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.munsun.system_projects</groupId>
+            <artifactId>web</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>dto</artifactId>
+            <groupId>com.munsun.system_projects</groupId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.munsun.system_projects</groupId>
+            <artifactId>commons</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.munsun.system_projects</groupId>
+            <artifactId>security</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+        <plugin>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <executions>
+                <execution>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>single</goal>
+                    </goals>
+                </execution>
+            </executions>
+            <configuration>
+                <finalName>SystemProjects-exec</finalName>
+                <archive>
+                    <manifest>
+                        <addClasspath>true</addClasspath>
+                        <mainClass>com.munsun.system_projects.app.Application</mainClass>
+                    </manifest>
+                </archive>
+                <descriptorRefs>
+                    <descriptorRef>jar-with-dependencies</descriptorRef>
+                </descriptorRefs>
+            </configuration>
+        </plugin>
+        </plugins>
+    </build>
 </project>
