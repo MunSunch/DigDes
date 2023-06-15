@@ -62,10 +62,14 @@ public class EmployeeSecurity implements UserDetails {
     public static UserDetails mapUser(Employee employee) {
         UserDetails user = new User(employee.getAccount().getLogin(),
                 employee.getAccount().getPassword(),
-                employee.getStatusEmployee().getName().equals(StatusEmployee.ACTIVE.name()),
-                employee.getStatusEmployee().getName().equals(StatusEmployee.ACTIVE.name()),
-                employee.getStatusEmployee().getName().equals(StatusEmployee.ACTIVE.name()),
-                employee.getStatusEmployee().getName().equals(StatusEmployee.ACTIVE.name()),
+                employee.getStatusEmployee().getName()
+                        .equals(StatusEmployee.ACTIVE.name()),
+                employee.getStatusEmployee().getName()
+                        .equals(StatusEmployee.ACTIVE.name()),
+                employee.getStatusEmployee().getName()
+                        .equals(StatusEmployee.ACTIVE.name()),
+                employee.getStatusEmployee().getName()
+                        .equals(StatusEmployee.ACTIVE.name()),
                 PostEmployee.valueOf(employee.getPostEmployee().getName()).getAuthorities());
         return user;
     }

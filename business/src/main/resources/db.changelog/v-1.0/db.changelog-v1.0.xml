@@ -16,21 +16,14 @@
                 path="schema.sql"/>
     </changeSet>
 
-
-<!--    <include file="01-changeset-post_employees-table.xml" relativeToChangelogFile="true"/>-->
-<!--    <include file="10-changeset-accounts-table.xml" relativeToChangelogFile="true"/>-->
-<!--    <include file="20-changeset-status_employees-table.xml" relativeToChangelogFile="true"/>-->
-<!--    <include file="30-changeset-employees-table.xml" relativeToChangelogFile="true"/>-->
-
-<!--    <include file="40-changeset-status_tasks-table.xml" relativeToChangelogFile="true"/>-->
-<!--    <include file="50-changeset-tasks-table.xml" relativeToChangelogFile="true"/>-->
-
-<!--    <include file="60-changeset-status_projects-table.xml" relativeToChangelogFile="true"/>-->
-<!--    <include file="70-changeset-projects-table.xml" relativeToChangelogFile="true"/>-->
-<!--&lt;!&ndash;    <include file="80-changeset-projects_to_tasks-table.xml" relativeToChangelogFile="true"/>&ndash;&gt;-->
-<!--    -->
-<!--    <include file="90-changeset-commands-table.xml" relativeToChangelogFile="true"/>-->
-<!--    <include file="100-changeset-roles-table.xml" relativeToChangelogFile="true"/>-->
-<!--    <include file="110-changeset-commands_to_employees-table.xml" relativeToChangelogFile="true"/>-->
+    <changeSet id="3" author="MunSun">
+        <sqlFile dbms="postgresql"
+                 encoding="UTF-8"
+                 endDelimiter="\nGO"
+                 relativeToChangelogFile="true"
+                 splitStatements="true"
+                 stripComments="true"
+                 path="add-admin.sql"/>
+    </changeSet>
 
 </databaseChangeLog>

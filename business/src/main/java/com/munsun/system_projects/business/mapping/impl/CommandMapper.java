@@ -4,42 +4,35 @@ import com.munsun.system_projects.business.mapping.Mapper;
 import com.munsun.system_projects.business.model.Command;
 import com.munsun.system_projects.business.model.Employee;
 import com.munsun.system_projects.business.model.Project;
-import com.munsun.system_projects.dto.entity.CommandDTO;
-import com.munsun.system_projects.dto.entity.EmployeeDTO;
-import com.munsun.system_projects.dto.entity.ProjectDTO;
+import com.munsun.system_projects.dto.entity.in.CommandDtoIn;
+import com.munsun.system_projects.dto.entity.out.CommandDtoOut;
+import com.munsun.system_projects.dto.entity.out.EmployeeDtoOut;
+import com.munsun.system_projects.dto.entity.out.ProjectDtoOut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CommandMapper implements Mapper<Command, CommandDTO> {
-    private Mapper<Project, ProjectDTO> projectMapper;
-    private Mapper<Employee, EmployeeDTO> employeeMapper;
+public class CommandMapper implements Mapper<Command, CommandDtoOut> {
+    private Mapper<Project, ProjectDtoOut> projectMapper;
+    private Mapper<Employee, EmployeeDtoOut> employeeMapper;
 
     @Autowired
-    public CommandMapper(Mapper<Project, ProjectDTO> projectMapper, Mapper<Employee, EmployeeDTO> employeeMapper) {
+    public CommandMapper(Mapper<Project, ProjectDtoOut> projectMapper, Mapper<Employee, EmployeeDtoOut> employeeMapper) {
         this.projectMapper = projectMapper;
         this.employeeMapper = employeeMapper;
     }
 
     @Override
-    public Command map(CommandDTO obj) {
-        Command command = new Command();
-        command.setId(obj.getId());
-        //command.setCode(obj.getCode());
-        command.setProject(projectMapper.map(obj.getProject()));
-        command.setEmployees(obj.getEmployees().stream()
-                .map(employeeMapper::map).toList());
-        return command;
+    public Command map(CommandDtoOut obj) {
+        return null;
     }
 
     @Override
-    public CommandDTO reverseMap(Command obj) {
-        CommandDTO commandDTO = new CommandDTO();
-        commandDTO.setId(obj.getId());
-        //commandDTO.setCode(obj.getCode());
-        commandDTO.setProject(projectMapper.reverseMap(obj.getProject()));
-        commandDTO.setEmployees(obj.getEmployees().stream()
-                .map(employeeMapper::reverseMap).toList());
-        return commandDTO;
+    public CommandDtoOut reverseMap(Command obj) {
+        CommandDtoOut commandDtoOut = new CommandDtoOut();
+        commandDtoOut.setId(obj.getId());
+        commandDtoOut.setCode(obj.getCode());
+        commandDtoOut.setProject(projectMapper.reverseMap(obj.getProject()));
+        return commandDtoOut;
     }
 }

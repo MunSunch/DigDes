@@ -7,7 +7,7 @@
     <groupId>com.munsun.system_projects</groupId>
     <artifactId>DigDesProjects</artifactId>
     <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
 
     <modules>
         <module>business</module>
@@ -34,6 +34,8 @@
         <org.testcontainers.testcontainers.version>1.18.2</org.testcontainers.testcontainers.version>
         <org.testcontainers.postgresql.version>1.18.3</org.testcontainers.postgresql.version>
         <org.testcontainers.junit-jupiter.version>1.18.3</org.testcontainers.junit-jupiter.version>
+        <org.hibernate.orm.hibernate-jpamodelgen.version>6.2.4.Final</org.hibernate.orm.hibernate-jpamodelgen.version>
+        <org.springframework.boot.spring-boot-starter-validation.version>3.1.0</org.springframework.boot.spring-boot-starter-validation.version>
     </properties>
 
     <dependencyManagement>
@@ -125,6 +127,51 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-jpamodelgen -->
+        <dependency>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-jpamodelgen</artifactId>
+            <version>${org.hibernate.orm.hibernate-jpamodelgen.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-validation -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+            <version>${org.springframework.boot.spring-boot-starter-validation.version}</version>
+        </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <finalName>SystemProjects-exec</finalName>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>com.munsun.system_projects.app.Application</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+            </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
 </project>

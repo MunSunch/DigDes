@@ -5,21 +5,21 @@ import com.munsun.system_projects.business.model.Account;
 import com.munsun.system_projects.business.model.Employee;
 import com.munsun.system_projects.business.model.PostEmployee;
 import com.munsun.system_projects.business.model.StatusEmployee;
-import com.munsun.system_projects.dto.entity.AccountDTO;
-import com.munsun.system_projects.dto.entity.EmployeeDTO;
+import com.munsun.system_projects.dto.entity.out.AccountDtoOut;
+import com.munsun.system_projects.dto.entity.out.EmployeeDtoOut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class EmployeeMapper implements Mapper<Employee, EmployeeDTO> {
+public class EmployeeMapper implements Mapper<Employee, EmployeeDtoOut> {
     private Mapper<PostEmployee, com.munsun.system_projects.commons.enums.PostEmployee> mapperPost;
     private Mapper<StatusEmployee, com.munsun.system_projects.commons.enums.StatusEmployee> mapperStatusEmployee;
-    private Mapper<Account, AccountDTO> mapperAccount;
+    private Mapper<Account, AccountDtoOut> mapperAccount;
 
     @Autowired
     public EmployeeMapper(Mapper<PostEmployee, com.munsun.system_projects.commons.enums.PostEmployee> mapperPost,
                           Mapper<StatusEmployee, com.munsun.system_projects.commons.enums.StatusEmployee> mapperStatusEmployee,
-                          Mapper<Account, AccountDTO> mapperAccount)
+                          Mapper<Account, AccountDtoOut> mapperAccount)
     {
         this.mapperPost = mapperPost;
         this.mapperStatusEmployee = mapperStatusEmployee;
@@ -27,7 +27,7 @@ public class EmployeeMapper implements Mapper<Employee, EmployeeDTO> {
     }
 
     @Override
-    public Employee map(EmployeeDTO obj) {
+    public Employee map(EmployeeDtoOut obj) {
         Employee employee = new Employee();
         employee.setId(obj.getId());
         employee.setName(obj.getName());
@@ -41,8 +41,8 @@ public class EmployeeMapper implements Mapper<Employee, EmployeeDTO> {
     }
 
     @Override
-    public EmployeeDTO reverseMap(Employee obj) {
-        EmployeeDTO employeeDTO = new EmployeeDTO();
+    public EmployeeDtoOut reverseMap(Employee obj) {
+        EmployeeDtoOut employeeDTO = new EmployeeDtoOut();
         employeeDTO.setId(obj.getId());
         employeeDTO.setName(obj.getName());
         employeeDTO.setLastname(obj.getLastname());

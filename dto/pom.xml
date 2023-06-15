@@ -5,15 +5,15 @@
     <parent>
         <artifactId>DigDesProjects</artifactId>
         <groupId>com.munsun.system_projects</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dto</artifactId>
-    <groupId>com.munsun.system_projects</groupId>
-    <version>1.0-SNAPSHOT</version>
+    <version>${project.version}</version>
 
     <properties>
+        <project.version>1.0</project.version>
         <maven.compiler.source>18</maven.compiler.source>
         <maven.compiler.target>18</maven.compiler.target>
     </properties>
@@ -28,7 +28,7 @@
         <dependency>
             <artifactId>commons</artifactId>
             <groupId>com.munsun.system_projects</groupId>
-            <version>${version}</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>

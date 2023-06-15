@@ -1,15 +1,20 @@
 package com.munsun.system_projects.business.service;
 
-import com.munsun.system_projects.dto.entity.EmployeeDTO;
-import exp.UserNotFoundException;
+import com.munsun.system_projects.commons.exceptions.AccountEmptyFieldsException;
+import com.munsun.system_projects.commons.exceptions.EmployeeEmptyFieldsException;
+import com.munsun.system_projects.commons.exceptions.EmployeeNotFoundException;
+import com.munsun.system_projects.dto.entity.in.AccountDtoIn;
+import com.munsun.system_projects.dto.entity.in.EmployeeDtoIn;
+import com.munsun.system_projects.dto.entity.out.EmployeeDtoOut;
 
 import java.util.List;
 
 public interface EmployeeService {
-    EmployeeDTO createEmployee(EmployeeDTO employeeDTO) throws Exception;
-    EmployeeDTO setEmployee(int id, EmployeeDTO newEmployeeDTO) throws Exception;
-    EmployeeDTO removeEmployeeById(int id) throws UserNotFoundException;
-    List<EmployeeDTO> findEmployeesByString(String str);
-    EmployeeDTO getEmployeeById(int id) throws UserNotFoundException;
-    EmployeeDTO getEmployeeByAccount(String login) throws UserNotFoundException;
+    EmployeeDtoOut createEmployee(EmployeeDtoIn employeeDtoIn) throws Exception;
+    EmployeeDtoOut setEmployee(int id, EmployeeDtoIn employeeDtoIn) throws Exception;
+    EmployeeDtoOut removeEmployeeById(int id) throws EmployeeNotFoundException;
+    List<EmployeeDtoOut> findEmployeesByString(String str);
+    EmployeeDtoOut getEmployeeById(int id) throws EmployeeNotFoundException;
+    EmployeeDtoOut getEmployeeByAccount(AccountDtoIn accountDtoIn) throws EmployeeNotFoundException, AccountEmptyFieldsException;
+    List<EmployeeDtoOut> getAllEmployees();
 }

@@ -19,7 +19,4 @@ public class Command {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "project_id")
     private Project project;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Employee> employees;
 }

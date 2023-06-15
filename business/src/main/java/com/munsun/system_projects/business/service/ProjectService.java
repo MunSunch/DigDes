@@ -1,15 +1,16 @@
 package com.munsun.system_projects.business.service;
 
 import com.munsun.system_projects.commons.enums.StatusProject;
-import com.munsun.system_projects.dto.entity.ProjectDTO;
-import com.munsun.system_projects.dto.entity.TaskDTO;
+import com.munsun.system_projects.commons.exceptions.*;
+import com.munsun.system_projects.dto.entity.in.ProjectDtoIn;
+import com.munsun.system_projects.dto.entity.out.ProjectDtoOut;
 
 import java.util.List;
 
 public interface ProjectService {
-    ProjectDTO createProject(ProjectDTO projectDTO);
-    ProjectDTO setProject(int id, ProjectDTO projectDTO);
-    List<ProjectDTO> getProject(String str, StatusProject ...statusProjects);
-    ProjectDTO setStatusProject(int id, StatusProject status);
-    List<TaskDTO> getTasks(int id);
+    ProjectDtoOut createProject(ProjectDtoIn projectDTO) throws ProjectDuplicateException, ProjectEmptyFieldsException;
+    ProjectDtoOut setProject(int id, ProjectDtoIn projectDTO) throws ProjectDuplicateException, ProjectNotFoundException, ProjectEmptyFieldsException;
+    List<ProjectDtoOut> getProjectsByStringAndStatuses(String str, StatusProject ...statusProjects);
+    ProjectDtoOut getProjectById(int id) throws ProjectNotFoundException;
+    ProjectDtoOut updateStatusProject(int id, StatusProject status) throws ProjectNotFoundException, ProjectIncorrectStatusUpdateException, ProjectEmptyFieldsException;
 }

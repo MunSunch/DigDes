@@ -37,18 +37,15 @@ public enum PostEmployee {
     DEVELOPER(Set.of(Permission.READ_EMPLOYEE,
             Permission.READ_COMMAND,
             Permission.READ_PROJECT,
-            Permission.READ_TASK,
-            Permission.UPDATE_TASK)),
+            Permission.READ_TASK)),
     TESTER(Set.of(Permission.READ_EMPLOYEE,
             Permission.READ_COMMAND,
             Permission.READ_PROJECT,
-            Permission.READ_TASK,
-            Permission.UPDATE_TASK)),
+            Permission.READ_TASK)),
     DESIGNER(Set.of(Permission.READ_EMPLOYEE,
             Permission.READ_COMMAND,
             Permission.READ_PROJECT,
-            Permission.READ_TASK,
-            Permission.UPDATE_TASK));
+            Permission.READ_TASK));
 
     private final Set<Permission> permissions;
 

@@ -1,24 +1,16 @@
-package com.munsun.system_projects.dto.entity;
+package com.munsun.system_projects.dto.entity.in;
 
-import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.munsun.system_projects.commons.enums.PostEmployee;
 import com.munsun.system_projects.commons.enums.StatusEmployee;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
 @Schema(description = "Сотрудник")
-public class EmployeeDTO {
-    @Schema(description = "Идентификатор")
-    @Size(min = 1)
-    @JsonProperty("id")
-    private int id;
-
+public class EmployeeDtoIn {
     @Schema(description = "Имя")
     @NotNull
     @JsonProperty("name")
@@ -41,19 +33,14 @@ public class EmployeeDTO {
     @Schema(description = "Учетная запись")
     @NotNull
     @JsonProperty("account")
-    private AccountDTO account;
+    private AccountDtoIn account;
 
     @Schema(description = "Электронная почта")
     @JsonProperty("email")
     private String email;
 
-    @Schema(description = "Статус")
-    @NotNull
-    @JsonProperty("status")
-    private StatusEmployee statusEmployee;
-
-    @JsonAnySetter
-    public void addAccountDTO(String login, String password) {
+    @JsonSetter
+    public void addAccount(String login, String password) {
         account.setLogin(login);
         account.setPassword(password);
     }

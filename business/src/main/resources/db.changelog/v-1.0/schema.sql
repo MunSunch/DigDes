@@ -20,7 +20,7 @@ create table accounts
         constraint pk_accounts
             primary key,
     login    varchar(50) not null,
-    password varchar(50) not null
+    password varchar(100) not null
 );
 GO
 
@@ -96,7 +96,7 @@ create table commands
     id         serial
         constraint pk_commands
             primary key,
-    code       integer not null,
+    code       text not null,
     project_id integer
         constraint fk_commands_projects
             references projects
@@ -117,6 +117,7 @@ insert into roles(name) values
 ('MANAGER'),
 ('TESTER'),
 ('DESIGNER'),
+('ANALYTIC'),
 ('LEAD');
 GO
 
@@ -162,28 +163,17 @@ create table tasks
     employee_id      integer
         constraint fk_tasks_employees
             references employees,
-    cost             money       not null,
-    start_date       date        not null,
-    last_change_date date        not null,
-    end_date         date        not null,
-    create_date      date        not null,
+    cost             integer     not null,
+    last_change_date timestamp   not null,
+    end_date         timestamp   not null,
+    create_date      timestamp   not null,
     status_id        integer     not null
         constraint fk_tasks_statustasks
             references status_tasks,
     project_id integer not null
         constraint fk_tasks_projects
-            references projects
+            references projects,
+    author_id integer not null
+        constraint fk_tasks_employeesauthor
+            references employees
 );
-
--- create table projects_to_tasks
--- (
---     id         serial
---         constraint pk_projects_to_tasks
---             primary key,
---     project_id integer
---         constraint fk_projectstotasks_to_projects
---             references projects,
---     task_id    integer
---         constraint fk_projectstotasks_to_tasks
---             references tasks
--- );

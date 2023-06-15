@@ -1,4 +1,4 @@
-package exp;
+package com.munsun.system_projects.commons.exceptions;
 
 public class AccountDuplicateException extends Exception{
     public AccountDuplicateException() {

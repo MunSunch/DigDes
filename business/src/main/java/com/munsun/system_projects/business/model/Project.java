@@ -3,8 +3,6 @@ package com.munsun.system_projects.business.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.List;
-
 @Data
 @Entity
 @Table(name="projects")
@@ -22,12 +20,7 @@ public class Project {
     @Column(name="description")
     private String description;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-            CascadeType.REFRESH, CascadeType.DETACH})
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "status_project_id")
     private StatusProject status;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "project_id")
-    private List<Task> tasks;
 }

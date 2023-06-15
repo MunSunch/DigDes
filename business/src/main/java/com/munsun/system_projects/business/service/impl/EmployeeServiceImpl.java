@@ -1,27 +1,27 @@
 package com.munsun.system_projects.business.service.impl;
 
+import com.munsun.system_projects.business.model.Account;
 import com.munsun.system_projects.business.model.PostEmployee;
-import com.munsun.system_projects.business.model.StatusEmployee;
 import com.munsun.system_projects.business.repository.AccountRepository;
 import com.munsun.system_projects.business.repository.PostEmployeeRepository;
 import com.munsun.system_projects.business.repository.StatusEmployeeRepository;
 import com.munsun.system_projects.business.mapping.Mapper;
-import com.munsun.system_projects.business.model.Account;
 import com.munsun.system_projects.business.model.Employee;
 import com.munsun.system_projects.business.repository.EmployeeRepository;
 import com.munsun.system_projects.business.service.EmployeeService;
 import com.munsun.system_projects.business.service.impl.specification.EmployeeSpecification;
-import com.munsun.system_projects.dto.entity.AccountDTO;
-import com.munsun.system_projects.dto.entity.EmployeeDTO;
-import exp.AccountDuplicateException;
-import exp.UserDuplicateException;
-import exp.UserNotFoundException;
+import com.munsun.system_projects.commons.exceptions.*;
+import com.munsun.system_projects.dto.entity.in.AccountDtoIn;
+import com.munsun.system_projects.dto.entity.in.EmployeeDtoIn;
+import com.munsun.system_projects.dto.entity.out.EmployeeDtoOut;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Log4j2
 @Service
@@ -31,142 +31,164 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final StatusEmployeeRepository statusEmployeeRepository;
     private final AccountRepository accountRepository;
 
-    private final Mapper<Employee, EmployeeDTO> mapperEmployee;
-    private final Mapper<Account, AccountDTO> mapperAccount;
-    private final Mapper<PostEmployee, com.munsun.system_projects.commons.enums.PostEmployee> mapperPost;
-    private final Mapper<StatusEmployee, com.munsun.system_projects.commons.enums.StatusEmployee> mapperStatus;
+    private final Mapper<Employee, EmployeeDtoOut> mapperEmployee;
 
     @Autowired
     public EmployeeServiceImpl(EmployeeRepository employeeRepository,
                                PostEmployeeRepository postEmployeeRepository,
                                StatusEmployeeRepository statusEmployeeRepository,
                                AccountRepository accountRepository,
-                               Mapper<Employee, EmployeeDTO> mapperEmployee,
-                               Mapper<Account, AccountDTO> mapperAccount,
-                               Mapper<PostEmployee, com.munsun.system_projects.commons.enums.PostEmployee> mapperPost,
-                               Mapper<StatusEmployee, com.munsun.system_projects.commons.enums.StatusEmployee> mapperStatus)
+                               Mapper<Employee, EmployeeDtoOut> mapperEmployee)
     {
         this.employeeRepository = employeeRepository;
         this.postEmployeeRepository = postEmployeeRepository;
         this.statusEmployeeRepository = statusEmployeeRepository;
         this.accountRepository = accountRepository;
         this.mapperEmployee = mapperEmployee;
-        this.mapperAccount = mapperAccount;
-        this.mapperPost = mapperPost;
-        this.mapperStatus = mapperStatus;
     }
 
     @Override
-    public EmployeeDTO createEmployee(EmployeeDTO employeeDTO) throws Exception {
+    public EmployeeDtoOut createEmployee(EmployeeDtoIn employeeDtoIn) throws EmployeeDuplicateException, AccountDuplicateException, EmployeeEmptyFieldsException {
         log.debug("Создание нового сотрудника...");
-        checkEmployeeDTO(employeeDTO);
-        employeeDTO.setStatusEmployee(com.munsun.system_projects.commons.enums.StatusEmployee.ACTIVE);
-        Employee employee = mapperEmployee.map(employeeDTO);
-        employee.setPostEmployee(postEmployeeRepository.getPostEmployeeByName(employee.getPostEmployee().getName()));
-        employee.setStatusEmployee(statusEmployeeRepository.getStatusEmployeeByName(employee.getStatusEmployee().getName()));
-        log.info("Выполнение сохранения сотрудника...");
-        employeeRepository.save(employee);
-        log.info("Сохранение прошло успешно...");
-        return mapperEmployee.reverseMap(employee);
+            checkEmptyFieldsEmployee(employeeDtoIn);
+            checkDuplicateEmployee(employeeDtoIn);
+            checkDuplicateAccount(employeeDtoIn.getAccount());
+
+            Employee employee = new Employee();
+                employee.setId(0);
+                employee.setName(employeeDtoIn.getName());
+                employee.setLastname(employeeDtoIn.getLastname());
+                employee.setPatronymic(employeeDtoIn.getPytronymic());
+                Account account = new Account();
+                    account.setId(0);
+                    account.setLogin(employeeDtoIn.getAccount().getLogin());
+                    account.setPassword(new BCryptPasswordEncoder().encode(employeeDtoIn.getAccount().getPassword()));
+                employee.setAccount(account);
+                PostEmployee post = postEmployeeRepository.getPostEmployeeByName(employeeDtoIn.getPostEmployee().name());
+                employee.setPostEmployee(post);
+                employee.setEmail(employeeDtoIn.getEmail());
+                employee.setStatusEmployee(statusEmployeeRepository.getStatusEmployeeByName(com.munsun.system_projects.commons.enums.StatusEmployee.ACTIVE.name()));
+            var result = employeeRepository.save(employee);
+        log.debug("Сохранение прошло успешно...");
+            return mapperEmployee.reverseMap(result);
     }
 
-    private void checkEmployeeDTO(EmployeeDTO employeeDTO) throws Exception {
-        log.debug("Проверка полей сотрудника на заполненность...");
-        if(employeeDTO==null
-                || employeeDTO.getName()==null || "".equals(employeeDTO.getName())
-                || employeeDTO.getLastname()==null || "".equals(employeeDTO.getLastname())
-                || employeeDTO.getAccount().getLogin()==null || employeeDTO.getAccount().getPassword()==null
-                || "".equals(employeeDTO.getAccount().getLogin()) || "".equals(employeeDTO.getAccount().getPassword())
-                || "".equals(employeeDTO.getPytronymic())
-                || "".equals(employeeDTO.getEmail()))
-        {
-            String logMessage;
-            if(employeeDTO==null)
-                logMessage = "employee=null";
-            else if(employeeDTO.getName()==null || "".equals(employeeDTO.getName()))
-                logMessage = "name=empty/null";
-            else if(employeeDTO.getLastname()==null || "".equals(employeeDTO.getLastname()))
-                logMessage = "lastname=empty/null";
-            else if(employeeDTO.getAccount().getLogin()==null || "".equals(employeeDTO.getAccount().getLogin()))
-                logMessage = "login=empty/null";
-            else if(employeeDTO.getAccount().getPassword()==null || "".equals(employeeDTO.getAccount().getPassword()))
-                logMessage = "password=empty/null";
-            else if("".equals(employeeDTO.getPytronymic()))
-                logMessage = "pytronymic=empty";
-            else
-                logMessage = "email";
-
-            log.error("Проверка полей сотрудника на заполненность провалено: " + logMessage);
-            throw new IllegalArgumentException("Обязательные поля не заполнены");
-        }
-        log.info("Поиск дубликатов сотрудников...");
-        if(employeeRepository.exists(EmployeeSpecification.getSpecEquals(employeeDTO.getName(), employeeDTO.getLastname(),
-                employeeDTO.getPytronymic(), employeeDTO.getEmail())))
-        {
-            log.error("Поиск дубликатов сотрудников провален...");
-            throw new UserDuplicateException();
-        }
-        log.info("Поиск дубликатов логинов...");
-        if(accountRepository.existsAccountByLogin(employeeDTO.getAccount().getLogin())) {
-            log.error("Поиск дубликатов логинов провален: login=" + employeeDTO.getAccount().getLogin());
-            throw new AccountDuplicateException();
-        }
-        log.debug("Проверка полей сотрудника выполнена успешно...");
+    private void checkEmptyFieldsEmployee(EmployeeDtoIn employeeDtoIn) throws EmployeeEmptyFieldsException {
+        log.info("Проверка заполнения обязательных полей сотрудника: "+employeeDtoIn);
+            checkEmptyOrNullStringEmployee(employeeDtoIn.getName(), "name");
+            checkEmptyOrNullStringEmployee(employeeDtoIn.getLastname(), "lastname");
+            checkEmptyString(employeeDtoIn.getPytronymic(), "pytronymic");
+            checkEmptyOrNullStringEmployee(employeeDtoIn.getAccount().getLogin(), "login");
+            checkEmptyOrNullStringEmployee(employeeDtoIn.getAccount().getPassword(), "password");
+            checkEmptyString(employeeDtoIn.getEmail(), "email");
+            checkNullPostEmployee(employeeDtoIn.getPostEmployee());
+        log.info("Проверка заполнения обязательных полей сотрудника успешно: "+employeeDtoIn);
     }
 
-    @Override
-    public EmployeeDTO setEmployee(int id, EmployeeDTO newEmployeeDTO) throws Exception {
-        log.debug("Редактирование сотрудника..");
-        log.info("Поиск сотрудника по идентификатору...");
-        if(!employeeRepository.existsById(id)) {
-            log.error("Поиск сотрудника по идентификатору провален: id=" + id);
-            throw new UserNotFoundException();
-        }
-        checkEmployeeDTO(newEmployeeDTO);
-        log.info("Получение сотрудника по идентификатору...");
-        Employee employee = employeeRepository.getReferenceById(id);
-        log.info("Получение сотрудника по идентификатору выполнено...");
-        log.info("Проверка статуса ACTIVE сотрудника...");
-        if(!employee.getStatusEmployee().getName()
-                .equals(com.munsun.system_projects.commons.enums.StatusEmployee.ACTIVE.name()))
-        {
-            log.error("Проверка статуса ACTIVE сотрудника провалено: status=" + employee.getStatusEmployee().getName());
-            throw new IllegalArgumentException("Статус должен быть ACTIVE");
-        }
-        employee.setPostEmployee(postEmployeeRepository.getPostEmployeeByName(employee.getPostEmployee().getName()));
-        employee.setStatusEmployee(statusEmployeeRepository.getStatusEmployeeByName(employee.getStatusEmployee().getName()));
-        log.info("Выполнение редактирования сотрудника по идентификатору...");
-        employeeRepository.setEmployee(id, employee);
-        log.info("Выполнение редактирования сотрудника по идентификатору прошло успешно...");
-        return mapperEmployee.reverseMap(employeeRepository.getReferenceById(id));
+    private void checkEmptyOrNullStringEmployee(String str, String message) throws EmployeeEmptyFieldsException {
+        log.info("Проверка строки: "+message+"="+str);
+            if(str==null || "".equals(str)) {
+                log.error("Проверка строки провалено: "+message+"="+str);
+                throw new EmployeeEmptyFieldsException();
+            }
+        log.info("Проверка строки выполнена успешно: "+message+"="+str);
     }
 
-    @Override
-    public EmployeeDTO removeEmployeeById(int id) throws UserNotFoundException {
-        log.debug("Выполнение редактирования сотрудника по идентификатору...");
-        log.info("Поиск сотрудника по идентификатору...");
-        boolean isExists = employeeRepository.existsById(id);
-        if(!isExists) {
-            log.error("Поиск сотрудника по идентификатору провален: id=" + id);
-            throw new UserNotFoundException();
-        }
-        var statusRemoved = statusEmployeeRepository.getStatusEmployeeByName(com.munsun.system_projects.commons.enums.StatusEmployee.REMOVED.name());
-        log.info("Редактирование сотрудника...");
-        employeeRepository.setEmployeeStatus(id, statusRemoved);
-        log.info("Редактирование сотрудника успешно...");
-        return mapperEmployee.reverseMap(employeeRepository.getReferenceById(id));
+    private void checkEmptyString(String str, String message) throws EmployeeEmptyFieldsException {
+        log.info("Проверка строки: "+message+"="+str);
+            if("".equals(str)) {
+                log.error("Проверка строки провалено: "+message+"="+str);
+                throw new EmployeeEmptyFieldsException();
+            }
+        log.info("Проверка строки выполнена успешно: "+message+"="+str);
+    }
+
+    private void checkDuplicateEmployee(EmployeeDtoIn employeeDtoIn) throws EmployeeDuplicateException {
+        log.info("Поиск дубликатов сотрудников: "+employeeDtoIn);
+            if(employeeRepository.exists(EmployeeSpecification.equals(employeeDtoIn.getName(), employeeDtoIn.getLastname(),
+                    employeeDtoIn.getPytronymic(), employeeDtoIn.getEmail())))
+            {
+                log.error("Поиск дубликатов сотрудников провален...");
+                throw new EmployeeDuplicateException();
+            }
+        log.info("Поиск дубликатов сотрудников успешно: "+employeeDtoIn);
+    }
+
+    private void checkDuplicateAccount(AccountDtoIn account) throws AccountDuplicateException {
+        log.info("Проверка дубликатов аккаунтов: "+account);
+            if(accountRepository.existsAccountByLogin(account.getLogin())) {
+                log.error("Проверка дубликатов аккаунтов провалено: account="+account);
+                throw new AccountDuplicateException();
+            }
+        log.info("Проверка дубликатов аккаунтов успешно: "+account);
+    }
+
+    private void checkNullPostEmployee(com.munsun.system_projects.commons.enums.PostEmployee postEmployee) throws EmployeeEmptyFieldsException {
+        log.info("Проверка должности на NULL...");
+            if(postEmployee == null) {
+                log.error("Проверка должности на NULL провалено: post="+postEmployee);
+                    throw new EmployeeEmptyFieldsException();
+            }
+        log.info("Проверка должности на NULL успешно");
     }
 
     @Override
-    public List<EmployeeDTO> findEmployeesByString(String str) {
+    public EmployeeDtoOut setEmployee(int id, EmployeeDtoIn employeeDtoIn) throws EmployeeNotFoundException, EmployeeEmptyFieldsException, EmployeeIncorrectStatusException {
+        log.debug("Редактирование сотрудника по идентификатору: id="+id+", emp="+employeeDtoIn);
+            checkIdEmployee(id);
+            checkEmptyFieldsEmployee(employeeDtoIn);
+
+            Employee employee = employeeRepository.getReferenceById(id);
+            checkStatusEmployee(employee);
+                employee.setName(employeeDtoIn.getName());
+                employee.setLastname(employeeDtoIn.getLastname());
+                employee.setPatronymic(employeeDtoIn.getPytronymic());
+                Account account = accountRepository.getReferenceById(employee.getAccount().getId());
+                    account.setLogin(employeeDtoIn.getAccount().getLogin());
+                    account.setPassword(new BCryptPasswordEncoder().encode(employeeDtoIn.getAccount().getPassword()));
+                employee.setAccount(account);
+                employee.setEmail(employeeDtoIn.getEmail());
+                employee.setPostEmployee(postEmployeeRepository.getPostEmployeeByName(employee.getPostEmployee().getName()));
+            var result = employeeRepository.save(employee);
+        log.debug("Редактирование сотрудника по идентификатору успешно: "+id+", emp="+result);
+            return mapperEmployee.reverseMap(result);
+    }
+
+    private void checkIdEmployee(int id) throws EmployeeNotFoundException {
+        log.info("Проверка идентификатора сотрудника: "+id);
+            if(!employeeRepository.existsById(id)) {
+                log.error("Проверка идентификатора сотрудника провален: id=" + id);
+                throw new EmployeeNotFoundException();
+            }
+        log.info("Проверка идентификатора сотрудника успешно: "+id);
+    }
+
+    private void checkStatusEmployee(Employee employee) throws EmployeeIncorrectStatusException {
+        log.info("Проверка статуса ACTIVE сотрудника: "+employee);
+            if(!employee.getStatusEmployee().getName()
+                    .equals(com.munsun.system_projects.commons.enums.StatusEmployee.ACTIVE.name()))
+            {
+                log.error("Проверка статуса ACTIVE сотрудника провалено: status=" + employee.getStatusEmployee().getName());
+                throw new EmployeeIncorrectStatusException();
+            }
+        log.info("Проверка статуса ACTIVE сотрудника успешно: "+employee);
+    }
+
+    @Override
+    public EmployeeDtoOut removeEmployeeById(int id) throws EmployeeNotFoundException {
+        log.debug("Выполнение редактирования сотрудника по идентификатору: "+id);
+            checkIdEmployee(id);
+            Employee employee = employeeRepository.getReferenceById(id);
+            employee.setStatusEmployee(statusEmployeeRepository.getStatusEmployeeByName(com.munsun.system_projects.commons.enums.StatusEmployee.REMOVED.name()));
+            var result = employeeRepository.save(employee);
+        log.debug("Выполнение редактирования сотрудника по идентификатору: id");
+            return mapperEmployee.reverseMap(result);
+    }
+
+    @Override
+    public List<EmployeeDtoOut> findEmployeesByString(String str) {
         log.debug("Получение сотрудников по строке...");
-        log.info("Проверка входной строки...");
-        if(str==null || "".equals(str)) {
-            log.error("Проверка входной строки провалено: string=empty/null");
-            throw new IllegalArgumentException("Поле не заполнено");
-        }
-        log.info("Проверка входной строки выполнена успешно...");
-        List<Employee> employees = employeeRepository.search(str, com.munsun.system_projects.commons.enums.StatusEmployee.ACTIVE.name());
+            List<Employee> employees = employeeRepository.search(str, com.munsun.system_projects.commons.enums.StatusEmployee.ACTIVE.name());
         log.debug("Получение сотрудников по строке выполнено успешно...");
         return employees.stream()
                 .map(mapperEmployee::reverseMap)
@@ -175,24 +197,40 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Transactional
     @Override
-    public EmployeeDTO getEmployeeById(int id) throws UserNotFoundException {
-        log.debug("Получение сотрудника по идентификатору...");
-        Employee employee = employeeRepository.getReferenceById(id);
-        if(employee == null) {
-            log.error("Получение сотрудника по идентификатору провалено: id=" + id);
-            throw new UserNotFoundException();
-        }
-        return mapperEmployee.reverseMap(employee);
+    public EmployeeDtoOut getEmployeeById(int id) throws EmployeeNotFoundException {
+        log.debug("Получение сотрудника по идентификатору: "+id);
+            checkIdEmployee(id);
+            Employee employee = employeeRepository.getReferenceById(id);
+        log.debug("Получение сотрудника по идентификатору успешно: "+id);
+            return mapperEmployee.reverseMap(employee);
     }
 
     @Override
-    public EmployeeDTO getEmployeeByAccount(String login) throws IllegalArgumentException, UserNotFoundException {
-        log.debug("Получение сотрудника по учетной записи...");
-        log.info("Проверка входной строки...");
-        if("".equals(login) || login==null)
-            throw new IllegalArgumentException("Логин не заполнен: login=empty/null");
-        Employee employee = employeeRepository.findEmployeeByAccount_Login(login)
-                .orElseThrow(UserNotFoundException::new);
-        return mapperEmployee.reverseMap(employee);
+    public EmployeeDtoOut getEmployeeByAccount(AccountDtoIn accountDtoIn) throws EmployeeNotFoundException, AccountEmptyFieldsException {
+        log.debug("Получение сотрудника по учетной записи: login="+accountDtoIn.getLogin());
+            checkEmptyOrNullStringAccount(accountDtoIn.getLogin(), "login");
+            Employee employee = employeeRepository.findEmployeeByAccount_Login(accountDtoIn.getLogin())
+                                                  .orElseThrow(EmployeeNotFoundException::new);
+        log.debug("Получение сотрудника по учетной записи: login="+accountDtoIn.getLogin());
+            return mapperEmployee.reverseMap(employee);
+    }
+
+    private void checkEmptyOrNullStringAccount(String login, String original) throws AccountEmptyFieldsException {
+        log.info("Проверка строки: "+original+"="+login);
+        if(login==null || "".equals(login)) {
+            log.error("Проверка строки провалено: "+original+"="+login);
+            throw new AccountEmptyFieldsException();
+        }
+        log.info("Проверка строки выполнена успешно: "+original+"="+login);
+    }
+
+    @Override
+    public List<EmployeeDtoOut> getAllEmployees() {
+        log.debug("Получение всех сотрудников...");
+            var employees = employeeRepository.findAll();
+        log.debug("Получение всех сотрудников успешно");
+            return employees.stream()
+                    .map(mapperEmployee::reverseMap)
+                    .collect(Collectors.toList());
     }
 }

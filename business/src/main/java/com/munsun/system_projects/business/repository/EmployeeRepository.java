@@ -25,23 +25,5 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer>, Jp
             """)
     List<Employee> search(@Param("str") String str, @Param("status") String status);
 
-
-    @Modifying(clearAutomatically = true)
-    @Query(value = """
-            update Employee as e
-            set e.statusEmployee=:status
-            where e.id=:id
-            """)
-    void setEmployeeStatus(@Param("id") int id, @Param("status") StatusEmployee status);
-
-    @Modifying(clearAutomatically = true)
-    @Query(value = """
-            update Employee as e
-            set e=:employee
-            where e.id=:id
-            """)
-    void setEmployee(@Param("id") int id, @Param("employee") Employee employee);
-
-
     Optional<Employee> findEmployeeByAccount_Login(String login);
 }
